@@ -1,0 +1,25 @@
+# depslib dependency file v1.0
+1451142065 source:c:\users\vitor ramos\desktop\rubikcube\main.cpp
+	<iostream>
+	"vec3.h"
+
+1451140830 source:c:\users\vitor ramos\desktop\rubikcube\src\matrix.cpp
+	"matrix.h"
+
+1451139965 c:\users\vitor ramos\desktop\rubikcube\include\matrix.h
+	<ostream>
+	<initializer_list>
+
+1451105730 source:c:\users\vitor ramos\desktop\rubikcube\src\vec2.cpp
+	"vec2.h"
+
+1451105741 c:\users\vitor ramos\desktop\rubikcube\include\vec2.h
+	<math.h>
+
+1451140680 c:\users\vitor ramos\desktop\rubikcube\include\vec3.h
+	<math.h>
+	"matrix.h"
+
+1451140710 source:c:\users\vitor ramos\desktop\rubikcube\src\vec3.cpp
+	"vec3.h"
+
