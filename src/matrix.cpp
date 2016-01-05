@@ -3,31 +3,31 @@
 matrix::matrix()
 {
     this->lines=this->columns=1;
-    data= new float*;
-    data[0]= new float;
+    data= new double*;
+    data[0]= new double;
 }
 matrix::matrix(int n)
 {
     this->lines=this->columns=n;
-    data= new float*[n];
+    data= new double*[n];
     for(int i=0; i<n; i++)
-        data[i]= new float[n];
+        data[i]= new double[n];
 }
 matrix::matrix(int lines, int columns)
 {
     this->lines=lines;
     this->columns=columns;
-    data= new float*[lines];
+    data= new double*[lines];
     for(int i=0; i<lines; i++)
-        data[i]= new float[columns];
+        data[i]= new double[columns];
 }
-matrix::matrix(initializer_list<initializer_list<float>> elem)
+matrix::matrix(initializer_list<initializer_list<double>> elem)
 {
     this->lines= elem.size();
     this->columns= elem.begin()->size();
-    data= new float*[lines];
+    data= new double*[lines];
     for(int i=0; i<lines; i++)
-        data[i]= new float[columns];
+        data[i]= new double[columns];
     bool fimL= false, fimC= false;
     for(int i=0; i<this->lines; i++)
     {
@@ -56,19 +56,19 @@ matrix::matrix(initializer_list<initializer_list<float>> elem)
 matrix::~matrix()
 {
 }
-float matrix::getLines() const
+int matrix::getLines() const
 {
     return lines;
 }
-float matrix::getColumns() const
+int matrix::getColumns() const
 {
     return columns;
 }
-float** matrix::getData() const
+double** matrix::getData() const
 {
     return data;
 }
-float& matrix::at(int i, int j)
+double& matrix::at(int i, int j)
 {
     if(i >= 0 && i < this->lines && j >= 0 && j < this->columns)
         return this->data[i][j];
@@ -88,8 +88,13 @@ bool matrix::operator !=(matrix x)
 {
     return !(*this==x);
 }
-matrix matrix::operator =(initializer_list<initializer_list<float>> elem)
+matrix matrix::operator =(initializer_list<initializer_list<double>> elem)
 {
+    this->lines= elem.size();
+    this->columns= elem.begin()->size();
+    data= new double*[lines];
+    for(int i=0; i<lines; i++)
+        data[i]= new double[columns];
     bool fimL= false, fimC= false;
     for(int i=0; i<this->lines; i++)
     {
@@ -121,9 +126,9 @@ matrix matrix::operator =(matrix x)
     delete[] data;
     lines= x.lines;
     columns= x.columns;
-    data= new float*[lines];
+    data= new double*[lines];
     for(int i=0; i<lines; i++)
-        data[i]= new float[columns];
+        data[i]= new double[columns];
     for(int i=0; i<lines; i++)
         for(int j=0; j<columns; j++)
             data[i][j]= x.data[i][j];
@@ -175,7 +180,7 @@ matrix matrix::operator *=(matrix x)
 {
     return *this= *this*x;
 }
-matrix matrix::operator *(float x)
+matrix matrix::operator *(double x)
 {
     matrix ret(this->lines, this->columns);
     for(int i=0; i<this->lines; i++)
@@ -183,11 +188,11 @@ matrix matrix::operator *(float x)
             ret.data[i][j]= this->data[i][j]*x;
     return ret;
 }
-matrix matrix::operator *=(float x)
+matrix matrix::operator *=(double x)
 {
     return *this= *this*x;
 }
-matrix matrix::operator /(float x)
+matrix matrix::operator /(double x)
 {
     if(x == 0)
         throw "Erro matrix div/0";
@@ -197,7 +202,7 @@ matrix matrix::operator /(float x)
             ret.data[i][j]= this->data[i][j]/x;
     return ret;
 }
-matrix matrix::operator /=(float x)
+matrix matrix::operator /=(double x)
 {
     return *this= *this/x;
 }

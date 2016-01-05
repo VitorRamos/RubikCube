@@ -15,19 +15,19 @@ class matrix
         matrix();
         matrix(int n);
         matrix(int lines, int columns);
-        matrix(initializer_list<initializer_list<float>> elem);
+        matrix(initializer_list<initializer_list<double>> elem);
         ~matrix();
 
-        float getLines() const;
-        float getColumns() const;
-        float** getData() const;
+        int getLines() const;
+        int getColumns() const;
+        double** getData() const;
 
-        float& at(int i, int j);
+        double& at(int i, int j);
 
         bool operator == (matrix x);
         bool operator != (matrix x);
 
-        matrix operator =(initializer_list<initializer_list<float>> elem);
+        matrix operator =(initializer_list<initializer_list<double>> elem);
         matrix operator =(matrix x);
         matrix operator +(matrix x);
         matrix operator +=(matrix x);
@@ -35,10 +35,10 @@ class matrix
         matrix operator -=(matrix x);
         matrix operator *(matrix x);
         matrix operator *=(matrix x);
-        matrix operator *(float x);
-        matrix operator *=(float x);
-        matrix operator /(float x);
-        matrix operator /=(float x);
+        matrix operator *(double x);
+        matrix operator *=(double x);
+        matrix operator /(double x);
+        matrix operator /=(double x);
 
         friend matrix operator -(matrix x);
         friend ostream& operator << (ostream& out, matrix x);
@@ -46,7 +46,7 @@ class matrix
         static matrix identity(int n);
         static matrix transposta(matrix x);
     protected:
-        float **data;
+        double **data;
         int lines, columns;
 };
 

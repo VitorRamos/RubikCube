@@ -4,7 +4,7 @@ vec3::vec3() : matrix(3,1)
 {
 
 }
-vec3::vec3(float x, float y, float z) : matrix(3,1)
+vec3::vec3(double x, double y, double z) : matrix(3,1)
 {
     data[0][0]= x;
     data[1][0]= y;
@@ -26,33 +26,33 @@ vec3 vec3::operator =(matrix x)
     else
         throw "Erro de assimilacao matrix vetor";
 }
-void vec3::set(float x, float y, float z)
+void vec3::set(double x, double y, double z)
 {
     this->at(0)= x;
     this->at(1)= y;
     this->at(2)= z;
 }
-float vec3::x()
+double vec3::x()
 {
     return this->at(0);
 }
-float vec3::y()
+double vec3::y()
 {
     return this->at(1);
 }
-float vec3::z()
+double vec3::z()
 {
     return this->at(2);
 }
-float& vec3::at(int i)
+double& vec3::at(int i)
 {
     return this->matrix::at(i, 0);
 }
-float vec3::norma()
+double vec3::norma()
 {
     return sqrt( pow(this->x(),2) + pow(this->y(),2) + pow(this->z(),2));
 }
-float vec3::produto(vec3 x)
+double vec3::produto(vec3 x)
 {
     return this->x()*x.x()+this->y()*x.y()+this->z()*x.z();
 }

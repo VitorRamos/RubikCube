@@ -17,8 +17,7 @@ T abs(T n)
 {
     return (n>0) ? (n) : (-n);
 }
-template<class T>
-bool fEqual(T n1, T n2, T range= 1E-5f)
+bool dEqual(double n1, double n2, double range= 1E-5d)
 {
     return abs(n1-n2)<range;
 }
@@ -30,66 +29,66 @@ class face
     matrix square;
     string cor;
 public:
-    face(vec3 pos, vec3 normal, string cor) : square(4,3)
+    face(vec3 pos, vec3 normal, string cor)
     {
         this->pos= pos;
         this->cor= cor;
         this->normal= normal;
         vec3 a, b, c, d;
-        if(abs(normal.x()) > 0.01)
+        if(!dEqual(normal.x(), 0))
         {
             a= vec3((normal.y()+normal.z())/normal.x(), -1, -1);
             b= vec3((-normal.y()+normal.z())/normal.x(), 1, -1);
             c= vec3((-normal.y()-normal.z())/normal.x(), 1, 1);
-            d= vec3((normal.y()-normal.z())/normal.x(), -1, 1);
+            //d= vec3((normal.y()-normal.z())/normal.x(), -1, 1);
         }
-        if(abs(normal.y()) > 0.01)
+        if(!dEqual(normal.y(), 0))
         {
             a= vec3(-1, (normal.x()+normal.z())/normal.y(), -1);
-            b= vec3(1, (-normal.x()+normal.z())/normal.y(), -1);
-            c= vec3(1, (-normal.x()-normal.z())/normal.y(), 1);
-            d= vec3(-1, (normal.x()-normal.z())/normal.y(), 1);
+            b= vec3(1,  (-normal.x()+normal.z())/normal.y(), -1);
+            c= vec3(1,  (-normal.x()-normal.z())/normal.y(), 1);
+            //d= vec3(-1, (normal.x()-normal.z())/normal.y(), 1);
         }
-        if(abs(normal.z()) > 0.01)
+        if(!dEqual(normal.z(), 0))
         {
-            a= vec3(-1, -1, (normal.x()+normal.y())/normal.z());
-            b= vec3(1, -1, (-normal.x()+normal.y())/normal.z());
-            c= vec3(1, 1, (-normal.x()-normal.y())/normal.z());
-            d= vec3(-1, 1, (normal.x()-normal.y())/normal.z());
+            a= vec3(-1,-1, (normal.x()+normal.y())/normal.z());
+            b= vec3(1,-1,  (-normal.x()+normal.y())/normal.z());
+            c= vec3(1, 1,  (-normal.x()-normal.y())/normal.z());
+            //d= vec3(-1, 1, (normal.x()-normal.y())/normal.z());
         }
-        vec3 nz= vec3::normalizar(normal)*0.5;
-        vec3 nx= vec3::normalizar(b-a)*0.5;
-        vec3 ny= vec3::normalizar(c-b)*0.5;
-        a= nx-ny;
-        b= -nx-ny;
-        c= nx+ny;
-        d= -nx+ny;
-        square= { {a.x(), a.y(), a.z()}, {b.x(), b.y(), b.z()}, {c.x(), c.y(), c.z()}, {d.x(), d.y(), d.z()} };
+        //vec3 nz= vec3::normalizar(normal)*0.49;
+        vec3 nx= vec3::normalizar(b-a)*0.49;
+        vec3 ny= vec3::normalizar(c-b)*0.49;
+        a= (nx-ny)+pos;
+        b= (-nx-ny)+pos;
+        c= (nx+ny)+pos;
+        d= (-nx+ny)+pos;
+        square= { {a.x(), b.x(), c.x(), d.x()}, {a.y(), b.y(), c.y(), d.y()}, {a.z(), b.z(), c.z(), d.z()} };
     }
     void Draw()
     {
         glPushMatrix();
             glNormal3f(normal.x(), normal.y(), normal.z());	// Normal da face
-            glTranslated(pos.x(), pos.y(), pos.z());
+//            glTranslated(pos.x(), pos.y(), pos.z());
             if(cor == "RED") glColor3d(1,0,0);
             else if(cor == "GREEN") glColor3d(0,1,0);
             else if(cor == "YELLOW") glColor3d(1,1,0);
             else if(cor == "WHITE") glColor3d(1,1,1);
             else if(cor == "ORANGE") glColor3d(1,0.5,0);
             else if(cor == "BLUE") glColor3d(0,0,1);
-            glBegin(GL_QUADS);	// Face posterior
-                glVertex3f(square.at(0,0), square.at(0,1), square.at(0,2));
-                glVertex3f(square.at(1,0), square.at(1,1), square.at(1,2));
-                glVertex3f(square.at(2,0), square.at(2,1), square.at(2,2));
-                glVertex3f(square.at(3,0), square.at(3,1), square.at(3,2));
+            glBegin(GL_QUADS);
+                glVertex3f(square.at(0,0), square.at(1,0), square.at(2,0));
+                glVertex3f(square.at(0,1), square.at(1,1), square.at(2,1));
+                glVertex3f(square.at(0,2), square.at(1,2), square.at(2,2));
+                glVertex3f(square.at(0,3), square.at(1,3), square.at(2,3));
             glEnd();
         glPopMatrix();
     }
     void AplicaTransformacao(matrix T)
     {
-        square= matrix::transposta( T*matrix::transposta(square) );
-        normal= T*normal;
-        pos= T*pos;
+        square= T*square;
+        normal= T*normal; // dont need
+        pos= T*pos; // dont need
     }
 };
 
@@ -127,15 +126,15 @@ public:
     void AplicaT(string nomeF, matrix T)
     {
         vector<cubiculo*> face;
-        if(nomeF == "front" || nomeF == "F" || nomeF == "'F") face= frontFace;
-        else if(nomeF == "back" || nomeF == "B" || nomeF == "'B") face= backFace;
-        else if(nomeF == "right" || nomeF == "R" || nomeF == "'R") face= rightFace;
-        else if(nomeF == "middle1" || nomeF == "M1" || nomeF == "'M1") face= middleFace1;
-        else if(nomeF == "middle2" || nomeF == "M2" || nomeF == "'M2") face= middleFace2;
-        else if(nomeF == "middle3" || nomeF == "M3" || nomeF == "'M3") face= middleFace3;
-        else if(nomeF == "left" || nomeF == "L" || nomeF == "'L") face= leftFace;
-        else if(nomeF == "up" || nomeF == "U" || nomeF == "'U") face= upFace;
-        else if(nomeF == "down" || nomeF == "D" || nomeF == "'D" ) face= downFace;
+        if(nomeF == "F" || nomeF == "'F") face= frontFace;
+        else if(nomeF == "B" || nomeF == "'B") face= backFace;
+        else if(nomeF == "R" || nomeF == "'R") face= rightFace;
+        else if(nomeF == "M1" || nomeF == "'M1") face= middleFace1;
+        else if(nomeF == "M2" || nomeF == "'M2") face= middleFace2;
+        else if(nomeF == "M3" || nomeF == "'M3") face= middleFace3;
+        else if(nomeF == "L" || nomeF == "'L") face= leftFace;
+        else if(nomeF == "U" || nomeF == "'U") face= upFace;
+        else if(nomeF == "D" || nomeF == "'D" ) face= downFace;
 
         for(auto& cub : face) cub->AplicaTransformacao(T);
         UpDate();
@@ -162,15 +161,15 @@ public:
         downFace.clear();
         for(auto& cub : all)
         {
-            if(fEqual(cub->pos.x(), 1.0f)) frontFace.push_back(cub);
-            if(fEqual(cub->pos.x(), -1.0f)) backFace.push_back(cub);
-            if(fEqual(cub->pos.z(), -1.0f)) rightFace.push_back(cub);
-            if(fEqual(cub->pos.z(), 1.0f)) leftFace.push_back(cub);
-            if(fEqual(cub->pos.y(), 1.0f)) upFace.push_back(cub);
-            if(fEqual(cub->pos.y(), -1.0f)) downFace.push_back(cub);
-            if(fEqual(cub->pos.x(), 0.0f)) middleFace1.push_back(cub);
-            if(fEqual(cub->pos.z(), 0.0f)) middleFace2.push_back(cub);
-            if(fEqual(cub->pos.y(), 0.0f)) middleFace3.push_back(cub);
+            if(dEqual(cub->pos.x(), 1.0f)) frontFace.push_back(cub);
+            if(dEqual(cub->pos.x(), -1.0f)) backFace.push_back(cub);
+            if(dEqual(cub->pos.z(), 1.0f)) leftFace.push_back(cub);
+            if(dEqual(cub->pos.z(), -1.0f)) rightFace.push_back(cub);
+            if(dEqual(cub->pos.y(), 1.0f)) upFace.push_back(cub);
+            if(dEqual(cub->pos.y(), -1.0f)) downFace.push_back(cub);
+            if(dEqual(cub->pos.x(), 0.0f)) middleFace1.push_back(cub);
+            if(dEqual(cub->pos.z(), 0.0f)) middleFace2.push_back(cub);
+            if(dEqual(cub->pos.y(), 0.0f)) middleFace3.push_back(cub);
         }
     }
 };
@@ -179,30 +178,29 @@ class Animacao
 {
     Cubo* cubo;
     vector<string> jogadas;
-    float theta_acumulado;
+    double theta_acumulado;
 public:
     Animacao(Cubo* cubo)
     {
         this->cubo= cubo;
         theta_acumulado= 0;
     }
-    void AddJogada(string jogada)
+    void AddJogada(vector<string> jogada)
     {
-        jogadas.push_back(jogada);
+        for(auto i: jogada)
+            jogadas.push_back(i);
     }
     void Processa()
     {
         if(jogadas.empty())
             return ;
-        float theta= 10*M_PI/180;
+        double theta= 15*M_PI/180;
         if(jogadas.front().at(0) == '\'')
             theta= -theta;
         theta_acumulado+=theta;
 
-        cout << theta_acumulado << endl;
-        matrix Rx(3), Ry(3), Rz(3), Rxn(3), Ryn(3), Rzn(3);
-        Rx= {{1, 0, 0}, {0, cosf(theta), -sinf(theta)}, {0, sinf(theta), cosf(theta)} };
-        Ry= {{cosf(theta), 0, sinf(theta)}, {0, 1, 0}, {-sinf(theta), 0, cosf(theta)} };
+        matrix Rx= {{1, 0, 0}, {0, cosf(theta), -sinf(theta)}, {0, sinf(theta), cosf(theta)} },
+        Ry= {{cosf(theta), 0, sinf(theta)}, {0, 1, 0}, {-sinf(theta), 0, cosf(theta)} },
         Rz= {{cosf(theta), -sinf(theta), 0}, {sinf(theta), cosf(theta), 0}, {0, 0, 1} };
 
         if(jogadas.front() == "F" || jogadas.front() == "M1" || jogadas.front() == "B"
@@ -228,8 +226,7 @@ public:
 };
 
 Cubo cubo;
-
-Animacao teste(&cubo);
+Animacao aim(&cubo);
 
 float zoom = 15.0f;
 float rotx = 30.000f;
@@ -264,18 +261,17 @@ void display()
 	glRotatef(rotx,1,0,0);
 	glRotatef(roty,0,1,0);
 
-//    cubo.Draw();
-    teste.Draw();
+    aim.Draw();
 
-//    glColor3d(1,1,1);
-//    glutSolidSphere(0.1,20,20);
 	glBegin(GL_LINES);
+        glColor3d(0,1,0);
         glVertex3f(0,0,-100);
         glVertex3f(0,0,100);
         glVertex3f(0,-100,0);
         glVertex3f(0,100,0);
         glVertex3f(-100,0,0);
         glVertex3f(100,0,0);
+        glColor3d(1,0,0);
         for(int i=-10;i<=10;++i) {
             glVertex3f(i,0,-10);
             glVertex3f(i,0,10);
@@ -284,7 +280,6 @@ void display()
             glVertex3f(-10,0,i);
         }
 	glEnd();
-
 	glutSwapBuffers();
 }
 
@@ -359,35 +354,37 @@ void Mouse(int b,int s,int x,int y)
 
 void Keyboard(unsigned char key, int x, int y)
 {
-    matrix Rx(3), Ry(3), Rz(3), Rxn(3), Ryn(3), Rzn(3);
-    /*
-    Rx= {{1, 0, 0}, {0, 0, -1}, {0, 1, 0} };
-    Ry= {{0, 0, 1}, {0, 1, 0}, {-1, 0, 0} };
-    Rz= {{0, -1, 0}, {1, 0, 0}, {0, 0, 1} };
-    */
-    float theta= (15)*M_PI/180;
-    Rx= {{1, 0, 0}, {0, cosf(theta), -sinf(theta)}, {0, sinf(theta), cosf(theta)} };
-    Ry= {{cosf(theta), 0, sinf(theta)}, {0, 1, 0}, {-sinf(theta), 0, cosf(theta)} };
-    Rz= {{cosf(theta), -sinf(theta), 0}, {sinf(theta), cosf(theta), 0}, {0, 0, 1} };
-    if(key == 'z') { cubo.AplicaT("front", Rx);glutPostRedisplay(); }
-    if(key == 'a') { cubo.AplicaT("middle1", Rx); glutPostRedisplay(); }
-    if(key == 'q') { cubo.AplicaT("back", Rx); glutPostRedisplay(); }
-    if(key == 'x') { cubo.AplicaT("right", Rz); glutPostRedisplay(); }
-    if(key == 's') { cubo.AplicaT("middle2", Rz); glutPostRedisplay(); }
-    if(key == 'w') { cubo.AplicaT("left", Rz); glutPostRedisplay(); }
-    if(key == 'e') { cubo.AplicaT("up", Ry); glutPostRedisplay(); }
-    if(key == 'd') { cubo.AplicaT("middle3", Ry); glutPostRedisplay(); }
-    if(key == 'c') { cubo.AplicaT("down", Ry); glutPostRedisplay(); }
-    if(key == '1') { teste.AddJogada("'R"); teste.AddJogada("'F"); teste.AddJogada("'R"); teste.AddJogada("B"); teste.AddJogada("B");
-                     teste.AddJogada("R"); teste.AddJogada("F"); teste.AddJogada("'R"); teste.AddJogada("B"); teste.AddJogada("B");
-                     teste.AddJogada("R"); teste.AddJogada("R");}
+    if(key == 'z') { aim.AddJogada({"F"}); }
+    if(key == 'a') { aim.AddJogada({"M1"}); }
+    if(key == 'q') { aim.AddJogada({"B"}); }
+    if(key == 'x') { aim.AddJogada({"R"}); }
+    if(key == 's') { aim.AddJogada({"M2"}); }
+    if(key == 'w') { aim.AddJogada({"L"}); }
+    if(key == 'e') { aim.AddJogada({"U"}); }
+    if(key == 'd') { aim.AddJogada({"M3"}); }
+    if(key == 'c') { aim.AddJogada({"D"}); }
+
+    if(key == 'Z') { aim.AddJogada({"'F"}); }
+    if(key == 'A') { aim.AddJogada({"'M1"}); }
+    if(key == 'Q') { aim.AddJogada({"'B"}); }
+    if(key == 'X') { aim.AddJogada({"'R"}); }
+    if(key == 'S') { aim.AddJogada({"'M2"}); }
+    if(key == 'W') { aim.AddJogada({"'L"}); }
+    if(key == 'E') { aim.AddJogada({"'U"}); }
+    if(key == 'D') { aim.AddJogada({"'M3"}); }
+    if(key == 'C') { aim.AddJogada({"'D"}); }
+    // L
+    if(key == '1') aim.AddJogada({"'F", "'U", "R", "U", "'R", "F"});
+    if(key == '2') aim.AddJogada({"R", "'U", "'R", "'U", "R", "'U", "'U", "'R" });
+    if(key == '3') aim.AddJogada({"'R", "'F", "'R", "B", "B", "R", "F", "'R", "B", "B", "R", "R"});
+    if(key == '4') aim.AddJogada({"F", "F", "U", "M2", "U", "U", "'M2", "U", "F", "F"});
 }
 
 void Time(int t)
 {
-    teste.Processa();
+    aim.Processa();
     glutPostRedisplay();
-    glutTimerFunc(30, Time, t);
+    glutTimerFunc(10, Time, t);
 }
 
 //-------------------------------------------------------------------------------
@@ -398,7 +395,7 @@ int main(int argc,char** argv)
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGBA|GLUT_DEPTH);
 	glutInitWindowSize(640,480);
 	glutInitWindowPosition(100,100);
-	glutCreateWindow("Maya Camera");
+	glutCreateWindow("RubikCubeSolver");
 
     glutKeyboardFunc(Keyboard);
 	glutDisplayFunc(display);
