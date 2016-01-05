@@ -15,6 +15,8 @@ class matrix
         matrix();
         matrix(int n);
         matrix(int lines, int columns);
+        matrix(initializer_list<initializer_list<float>> elem);
+        ~matrix();
 
         float getLines() const;
         float getColumns() const;
@@ -38,6 +40,7 @@ class matrix
         matrix operator /(float x);
         matrix operator /=(float x);
 
+        friend matrix operator -(matrix x);
         friend ostream& operator << (ostream& out, matrix x);
 
         static matrix identity(int n);

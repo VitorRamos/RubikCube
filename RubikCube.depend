@@ -238,3 +238,25 @@
 1451159987 source:c:\users\vitor ramos\desktop\rubikcube\src\vec3.cpp
 	"vec3.h"
 
+1451933282 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\matrix.cpp
+	"matrix.h"
+
+1451933207 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\matrix.h
+	<ostream>
+	<initializer_list>
+
+1451594984 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\vec3.cpp
+	"vec3.h"
+
+1451933147 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\vec3.h
+	<math.h>
+	"matrix.h"
+
+1451964109 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\main.cpp
+	<GL/gl.h>
+	<GL/glut.h>
+	<iostream>
+	<vector>
+	<math.h>
+	"vec3.h"
+

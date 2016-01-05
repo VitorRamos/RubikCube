@@ -21,6 +21,41 @@ matrix::matrix(int lines, int columns)
     for(int i=0; i<lines; i++)
         data[i]= new float[columns];
 }
+matrix::matrix(initializer_list<initializer_list<float>> elem)
+{
+    this->lines= elem.size();
+    this->columns= elem.begin()->size();
+    data= new float*[lines];
+    for(int i=0; i<lines; i++)
+        data[i]= new float[columns];
+    bool fimL= false, fimC= false;
+    for(int i=0; i<this->lines; i++)
+    {
+        if((elem.begin()+i) == elem.end())
+            fimL= true;
+        if(fimL)
+        {
+            for(int j=0; j<this->columns; j++)
+                this->data[i][j]= 0;
+        }
+        else
+        {
+            for(int j=0; j<this->columns; j++)
+            {
+                if(((elem.begin()+i)->begin()+j) == (elem.begin()+i)->end())
+                    fimC= true;
+                if(fimC)
+                    this->data[i][j]= 0;
+                else
+                    this->data[i][j]= *((elem.begin()+i)->begin()+j);
+            }
+        }
+        fimC= false;
+    }
+}
+matrix::~matrix()
+{
+}
 float matrix::getLines() const
 {
     return lines;
@@ -177,6 +212,14 @@ ostream& operator << (ostream& out, matrix x)
         out << endl;
     }
     return out;
+}
+
+matrix operator -(matrix x)
+{
+    for(int i=0; i<x.lines; i++)
+        for(int j=0; j<x.columns; j++)
+            x.data[i][j]= -x.data[i][j];
+    return x;
 }
 
 matrix matrix::identity(int n)

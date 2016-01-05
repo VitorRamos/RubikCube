@@ -32,15 +32,15 @@ void vec3::set(float x, float y, float z)
     this->at(1)= y;
     this->at(2)= z;
 }
-float& vec3::x()
+float vec3::x()
 {
     return this->at(0);
 }
-float& vec3::y()
+float vec3::y()
 {
     return this->at(1);
 }
-float& vec3::z()
+float vec3::z()
 {
     return this->at(2);
 }
@@ -70,4 +70,10 @@ vec3 vec3::normalizar(vec3 x)
 {
     return (x.norma() == 0) ? (vec3(0,0,0)) :
         vec3(x.x()/x.norma(), x.y()/x.norma(), x.z()/x.norma());
+}
+
+ostream& operator << (ostream& out, vec3 x)
+{
+    out << matrix::transposta(x) << endl;
+    return out;
 }
