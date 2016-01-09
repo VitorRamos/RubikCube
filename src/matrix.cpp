@@ -231,7 +231,11 @@ matrix matrix::identity(int n)
 {
     matrix ret(n);
     for(int i=0; i<n; i++)
-        ret.data[i][i]= 1;
+        for(int j=0; j<n; j++)
+            if(i == j)
+                ret.data[i][i]= 1;
+            else
+                ret.data[i][j]= 0;
     return ret;
 }
 matrix matrix::transposta(matrix x)

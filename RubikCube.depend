@@ -238,25 +238,45 @@
 1451159987 source:c:\users\vitor ramos\desktop\rubikcube\src\vec3.cpp
 	"vec3.h"
 
-1451993492 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\matrix.cpp
+1452003872 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\matrix.cpp
 	"matrix.h"
 
 1451993507 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\matrix.h
 	<ostream>
 	<initializer_list>
 
-1451993566 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\vec3.cpp
+1452255441 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\vec3.cpp
 	"vec3.h"
 
-1451993559 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\vec3.h
+1452254789 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\vec3.h
 	<math.h>
+	"utilitarios.h"
 	"matrix.h"
 
-1451998949 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\main.cpp
+1452269972 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\main.cpp
+	<iostream>
+	<cstdlib>
+	<time.h>
+	"vec3.h"
+	"cubo.h"
+
+1452256120 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\cubo.h
 	<GL/gl.h>
 	<GL/glut.h>
-	<iostream>
+	<string>
 	<vector>
-	<math.h>
+	"utilitarios.h"
 	"vec3.h"
+
+1452270049 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\cubo.cpp
+	"cubo.h"
+
+1341006776 c:\program files (x86)\codeblocks\mingw\include\time.h
+	<_mingw.h>
+	<stddef.h>
+
+1452212150 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\utilitarios.h
+
+1452212157 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\utilitarios.cpp
+	"utilitarios.h"
 

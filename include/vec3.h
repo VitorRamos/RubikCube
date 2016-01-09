@@ -4,6 +4,7 @@
 #pragma once
 
 #include <math.h>
+#include "utilitarios.h"
 #include "matrix.h"
 
 class vec3 : public matrix
@@ -25,5 +26,6 @@ public:
     static vec3 normalizar(vec3 x);
 
     friend ostream& operator << (ostream& out, vec3 x);
+    friend bool dEqual(vec3 a, vec3 b, double rang= 1E-5);
 };
 #endif // VEC3_H

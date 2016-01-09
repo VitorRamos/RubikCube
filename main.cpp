@@ -1,178 +1,13 @@
-#include <GL/gl.h>
-#include <GL/glut.h>
-
 #include <iostream>
-#include <vector>
-
-#include <math.h>
+#include <cstdlib>
+#include <time.h>
 
 using namespace std;
 
 #include "vec3.h"
+#include "cubo.h"
 
 #define M_PI 3.14159265358979323846
-
-template<class T>
-T abs(T n)
-{
-    return (n>0) ? (n) : (-n);
-}
-bool dEqual(double n1, double n2, double range= 1E-5d)
-{
-    return abs(n1-n2)<range;
-}
-
-class face
-{
-    vec3 pos;
-    vec3 normal;
-    matrix square;
-    string cor;
-public:
-    face(vec3 pos, vec3 normal, string cor)
-    {
-        this->pos= pos;
-        this->cor= cor;
-        this->normal= normal;
-        vec3 a, b, c, d;
-        if(!dEqual(normal.x(), 0))
-        {
-            a= vec3((normal.y()+normal.z())/normal.x(), -1, -1);
-            b= vec3((-normal.y()+normal.z())/normal.x(), 1, -1);
-            c= vec3((-normal.y()-normal.z())/normal.x(), 1, 1);
-            //d= vec3((normal.y()-normal.z())/normal.x(), -1, 1);
-        }
-        if(!dEqual(normal.y(), 0))
-        {
-            a= vec3(-1, (normal.x()+normal.z())/normal.y(), -1);
-            b= vec3(1,  (-normal.x()+normal.z())/normal.y(), -1);
-            c= vec3(1,  (-normal.x()-normal.z())/normal.y(), 1);
-            //d= vec3(-1, (normal.x()-normal.z())/normal.y(), 1);
-        }
-        if(!dEqual(normal.z(), 0))
-        {
-            a= vec3(-1,-1, (normal.x()+normal.y())/normal.z());
-            b= vec3(1,-1,  (-normal.x()+normal.y())/normal.z());
-            c= vec3(1, 1,  (-normal.x()-normal.y())/normal.z());
-            //d= vec3(-1, 1, (normal.x()-normal.y())/normal.z());
-        }
-        //vec3 nz= vec3::normalizar(normal)*0.49;
-        vec3 nx= vec3::normalizar(b-a)*0.49;
-        vec3 ny= vec3::normalizar(c-b)*0.49;
-        a= (nx-ny)+pos;
-        b= (-nx-ny)+pos;
-        c= (nx+ny)+pos;
-        d= (-nx+ny)+pos;
-        square= { {a.x(), b.x(), c.x(), d.x()}, {a.y(), b.y(), c.y(), d.y()}, {a.z(), b.z(), c.z(), d.z()} };
-    }
-    void Draw()
-    {
-        glPushMatrix();
-            glNormal3f(normal.x(), normal.y(), normal.z());	// Normal da face
-//            glTranslated(pos.x(), pos.y(), pos.z());
-            if(cor == "RED") glColor3d(1,0,0);
-            else if(cor == "GREEN") glColor3d(0,1,0);
-            else if(cor == "YELLOW") glColor3d(1,1,0);
-            else if(cor == "WHITE") glColor3d(1,1,1);
-            else if(cor == "ORANGE") glColor3d(1,0.5,0);
-            else if(cor == "BLUE") glColor3d(0,0,1);
-            glBegin(GL_QUADS);
-                glVertex3f(square.at(0,0), square.at(1,0), square.at(2,0));
-                glVertex3f(square.at(0,1), square.at(1,1), square.at(2,1));
-                glVertex3f(square.at(0,2), square.at(1,2), square.at(2,2));
-                glVertex3f(square.at(0,3), square.at(1,3), square.at(2,3));
-            glEnd();
-        glPopMatrix();
-    }
-    void AplicaTransformacao(matrix T)
-    {
-        square= T*square;
-        normal= T*normal; // dont need
-        pos= T*pos; // dont need
-    }
-};
-
-class cubiculo
-{
-    friend class Cubo;
-    vec3 pos;
-    vector<face> faces;
-public:
-    void Draw()
-    {
-        glPushMatrix();
-            glTranslated(pos.x(), pos.y(), pos.z());
-            for(auto& face: faces)
-                face.Draw();
-        glPopMatrix();
-    }
-    cubiculo(vec3 pos, vector<face> faces)
-    {
-        this->pos= pos;
-        this->faces= faces;
-    }
-    void AplicaTransformacao(matrix T)
-    {
-        pos= T*pos;
-        for(auto& face : faces) face.AplicaTransformacao(T);
-    }
-};
-
-class Cubo
-{
-    vector<cubiculo*> frontFace, backFace, leftFace, rightFace, middleFace1, middleFace2, middleFace3, upFace, downFace;
-    vector<cubiculo*> all;
-public:
-    void AplicaT(string nomeF, matrix T)
-    {
-        vector<cubiculo*> face;
-        if(nomeF == "F" || nomeF == "'F") face= frontFace;
-        else if(nomeF == "B" || nomeF == "'B") face= backFace;
-        else if(nomeF == "R" || nomeF == "'R") face= rightFace;
-        else if(nomeF == "M1" || nomeF == "'M1") face= middleFace1;
-        else if(nomeF == "M2" || nomeF == "'M2") face= middleFace2;
-        else if(nomeF == "M3" || nomeF == "'M3") face= middleFace3;
-        else if(nomeF == "L" || nomeF == "'L") face= leftFace;
-        else if(nomeF == "U" || nomeF == "'U") face= upFace;
-        else if(nomeF == "D" || nomeF == "'D" ) face= downFace;
-
-        for(auto& cub : face) cub->AplicaTransformacao(T);
-        UpDate();
-    }
-    void Adiciona(vector<cubiculo*> x)
-    {
-        all= x;
-        UpDate();
-    }
-    void Draw()
-    {
-        for(auto& cub : all) cub->Draw();
-    }
-    void UpDate()
-    {
-        frontFace.clear();
-        backFace.clear();
-        rightFace.clear();
-        leftFace.clear();
-        middleFace1.clear();
-        middleFace2.clear();
-        middleFace3.clear();
-        upFace.clear();
-        downFace.clear();
-        for(auto& cub : all)
-        {
-            if(dEqual(cub->pos.x(), 1.0f)) frontFace.push_back(cub);
-            if(dEqual(cub->pos.x(), -1.0f)) backFace.push_back(cub);
-            if(dEqual(cub->pos.z(), 1.0f)) leftFace.push_back(cub);
-            if(dEqual(cub->pos.z(), -1.0f)) rightFace.push_back(cub);
-            if(dEqual(cub->pos.y(), 1.0f)) upFace.push_back(cub);
-            if(dEqual(cub->pos.y(), -1.0f)) downFace.push_back(cub);
-            if(dEqual(cub->pos.x(), 0.0f)) middleFace1.push_back(cub);
-            if(dEqual(cub->pos.z(), 0.0f)) middleFace2.push_back(cub);
-            if(dEqual(cub->pos.y(), 0.0f)) middleFace3.push_back(cub);
-        }
-    }
-};
 
 class Animacao
 {
@@ -199,7 +34,8 @@ public:
             theta= -theta;
         theta_acumulado+=theta;
 
-        matrix Rx= {{1, 0, 0}, {0, cosf(theta), -sinf(theta)}, {0, sinf(theta), cosf(theta)} },
+        // try use const
+        const matrix Rx= {{1, 0, 0}, {0, cosf(theta), -sinf(theta)}, {0, sinf(theta), cosf(theta)} },
         Ry= {{cosf(theta), 0, sinf(theta)}, {0, 1, 0}, {-sinf(theta), 0, cosf(theta)} },
         Rz= {{cosf(theta), -sinf(theta), 0}, {sinf(theta), cosf(theta), 0}, {0, 0, 1} };
 
@@ -212,6 +48,7 @@ public:
         if(jogadas.front() == "U" || jogadas.front() == "M3" || jogadas.front() == "D"
         || jogadas.front() == "'U" || jogadas.front() == "'M3" || jogadas.front() == "'D")
             cubo->AplicaT(jogadas.front(), Ry);
+
         if( (jogadas.front().at(0) == '\'' && theta_acumulado+theta<=-M_PI/2)
            ||  (jogadas.front().at(0) != '\'' && theta_acumulado+theta>=M_PI/2))
         {
@@ -223,10 +60,26 @@ public:
     {
         cubo->Draw();
     }
+    void ResolveCruz()
+    {
+        vector<cubiculo> branco_central= cubo->ProcuraPeca("WHITE", 1);
+        if(dEqual(branco_central[0].getPos(), vec3(0, 0, 1))) AddJogada({"'M1"});
+        if(dEqual(branco_central[0].getPos(), vec3(0, 0, -1))) AddJogada({"M1"});
+        if(dEqual(branco_central[0].getPos(), vec3(1, 0, 0))) AddJogada({"M2"});
+        if(dEqual(branco_central[0].getPos(), vec3(-1, 0, 0))) AddJogada({"'M2"});
+        if(dEqual(branco_central[0].getPos(), vec3(0, -1, 0))) AddJogada({"M2","M2"});
+
+        vector<cubiculo> branco_cruz= cubo->ProcuraPeca("WHITE", 2);
+        for(auto& cub : branco_cruz)
+        {
+            vector<face> faces= cub.getFaces();
+
+        }
+    }
 };
 
-Cubo cubo;
-Animacao aim(&cubo);
+Cubo* cubo;
+Animacao* aim;
 
 float zoom = 15.0f;
 float rotx = 30.000f;
@@ -261,23 +114,23 @@ void display()
 	glRotatef(rotx,1,0,0);
 	glRotatef(roty,0,1,0);
 
-    aim.Draw();
+    aim->Draw();
 
 	glBegin(GL_LINES);
         glColor3d(0,1,0);
-        glVertex3f(0,0,-100);
-        glVertex3f(0,0,100);
-        glVertex3f(0,-100,0);
-        glVertex3f(0,100,0);
-        glVertex3f(-100,0,0);
-        glVertex3f(100,0,0);
-        glColor3d(1,0,0);
+        glVertex3f(-1.5,-1.5,-100);
+        glVertex3f(-1.5,-1.5,100);
+        glVertex3f(-1.5,-100,-1.5);
+        glVertex3f(-1.5,100,-1.5);
+        glVertex3f(-100,-1.5,-1.5);
+        glVertex3f(100,-1.5,-1.5);
+        glColor3d(1,-1.5,0);
         for(int i=-10;i<=10;++i) {
-            glVertex3f(i,0,-10);
-            glVertex3f(i,0,10);
+            glVertex3f(i,-1.5,-10);
+            glVertex3f(i,-1.5,10);
 
-            glVertex3f(10,0,i);
-            glVertex3f(-10,0,i);
+            glVertex3f(10,-1.5,i);
+            glVertex3f(-10,-1.5,i);
         }
 	glEnd();
 	glutSwapBuffers();
@@ -354,43 +207,84 @@ void Mouse(int b,int s,int x,int y)
 
 void Keyboard(unsigned char key, int x, int y)
 {
-    if(key == 'z') { aim.AddJogada({"F"}); }
-    if(key == 'a') { aim.AddJogada({"M1"}); }
-    if(key == 'q') { aim.AddJogada({"B"}); }
-    if(key == 'x') { aim.AddJogada({"R"}); }
-    if(key == 's') { aim.AddJogada({"M2"}); }
-    if(key == 'w') { aim.AddJogada({"L"}); }
-    if(key == 'e') { aim.AddJogada({"U"}); }
-    if(key == 'd') { aim.AddJogada({"M3"}); }
-    if(key == 'c') { aim.AddJogada({"D"}); }
+    if(key == 'z') { aim->AddJogada({"L"}); }
+    if(key == 'x') { aim->AddJogada({"M2"}); }
+    if(key == 'c') { aim->AddJogada({"R"}); }
+    if(key == 'a') { aim->AddJogada({"U"}); }
+    if(key == 's') { aim->AddJogada({"M3"}); }
+    if(key == 'd') { aim->AddJogada({"D"}); }
+    if(key == 'q') { aim->AddJogada({"F"}); }
+    if(key == 'w') { aim->AddJogada({"M1"}); }
+    if(key == 'e') { aim->AddJogada({"B"}); }
 
-    if(key == 'Z') { aim.AddJogada({"'F"}); }
-    if(key == 'A') { aim.AddJogada({"'M1"}); }
-    if(key == 'Q') { aim.AddJogada({"'B"}); }
-    if(key == 'X') { aim.AddJogada({"'R"}); }
-    if(key == 'S') { aim.AddJogada({"'M2"}); }
-    if(key == 'W') { aim.AddJogada({"'L"}); }
-    if(key == 'E') { aim.AddJogada({"'U"}); }
-    if(key == 'D') { aim.AddJogada({"'M3"}); }
-    if(key == 'C') { aim.AddJogada({"'D"}); }
-    // L
-    if(key == '1') aim.AddJogada({"'F", "'U", "R", "U", "'R", "F"});
-    if(key == '2') aim.AddJogada({"R", "'U", "'R", "'U", "R", "'U", "'U", "'R" });
-    if(key == '3') aim.AddJogada({"'R", "'F", "'R", "B", "B", "R", "F", "'R", "B", "B", "R", "R"});
-    if(key == '4') aim.AddJogada({"F", "F", "U", "M2", "U", "U", "'M2", "U", "F", "F"});
+    if(key == 'Z') { aim->AddJogada({"'F"}); }
+    if(key == 'A') { aim->AddJogada({"'M1"}); }
+    if(key == 'Q') { aim->AddJogada({"'B"}); }
+    if(key == 'X') { aim->AddJogada({"'R"}); }
+    if(key == 'S') { aim->AddJogada({"'M2"}); }
+    if(key == 'W') { aim->AddJogada({"'L"}); }
+    if(key == 'E') { aim->AddJogada({"'U"}); }
+    if(key == 'D') { aim->AddJogada({"'M3"}); }
+    if(key == 'C') { aim->AddJogada({"'D"}); }
+
+    // segunda camada
+    if(key == '1') aim->AddJogada({"'U", "R", "U", "'R", "U", "F", "'U", "'F"});
+    if(key == '2') aim->AddJogada({"U", "L", "'U", "'L", "'U", "'F", "U", "F"});
+
+    // cruz ultima camada
+    if(key == '3') aim->AddJogada({"'F", "'U", "R", "U", "'R", "F"});
+
+    // monta ultima camada
+    if(key == '4') aim->AddJogada({"R", "'U", "'R", "'U", "R", "'U", "'U", "'R" });
+    if(key == '5') aim->AddJogada({"L", "U", "'L", "U", "L", "U", "U", "'L" });
+
+    //L
+    if(key == '6') aim->AddJogada({"'R", "'F", "'R", "B", "B", "R", "F", "'R", "B", "B", "R", "R"});
+    // Minerva
+    if(key == '7') aim->AddJogada({"F", "F", "U", "M2", "U", "U", "'M2", "U", "F", "F"});
+    if(key == '8') aim->AddJogada({"F", "F", "'U", "M2", "U", "U", "'M2", "'U", "F", "F"});
+
+    if(key == 'j')
+        aim->ResolveCruz();
+
+    if(key == 'r')
+    {
+        for(int i=0; i<50; i++)
+        {
+            int rad1= rand()%9, rad2= rand()%2;
+            string play= "";
+            if(rad2 == 0) play="'";
+            switch(rad1)
+            {
+                case 0: play+="F"; break;
+                case 1: play+="B"; break;
+                case 2: play+="R"; break;
+                case 3: play+="L"; break;
+                case 4: play+="U"; break;
+                case 5: play+="D"; break;
+                case 6: play+="M1"; break;
+                case 7: play+="M2"; break;
+                case 8: play+="M3"; break;
+            }
+            //cout << play << " " << rad1 << " " << rad2 << endl;
+            aim->AddJogada({play});
+        }
+    }
 }
 
 void Time(int t)
 {
-    aim.Processa();
+    aim->Processa();
     glutPostRedisplay();
-    glutTimerFunc(10, Time, t);
+    glutTimerFunc(15, Time, t);
 }
 
 //-------------------------------------------------------------------------------
 ///
 int main(int argc,char** argv)
 {
+    srand(time(NULL));
+
 	glutInit(&argc,argv);
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGBA|GLUT_DEPTH);
 	glutInitWindowSize(640,480);
@@ -408,37 +302,8 @@ int main(int argc,char** argv)
 
     try
     {
-        // front peças
-        cubiculo *FCC= new cubiculo(vec3(1,0,0),{face(vec3(0.5,0,0), vec3(1,0,0),"RED")}); // central
-        cubiculo *FCL= new cubiculo(vec3(1,0,1),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // esquerda
-        cubiculo *FCR= new cubiculo(vec3(1,0,-1),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // direita
-        cubiculo *FCU= new cubiculo(vec3(1,1,0),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,0.5,0), vec3(0,1,0),"WHITE")}); // cima
-        cubiculo *FCD= new cubiculo(vec3(1,-1,0),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW")}); // baixo
-        cubiculo *FLD= new cubiculo(vec3(1,-1,1),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW"), face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // baixo esquerda
-        cubiculo *FRD= new cubiculo(vec3(1,-1,-1),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW"), face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // baixo direita
-        cubiculo *FLU= new cubiculo(vec3(1,1,1),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,0.5,0), vec3(0,1,0),"WHITE"), face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // cima esuqerda
-        cubiculo *FRU= new cubiculo(vec3(1,1,-1),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,0.5,0), vec3(0,1,0),"WHITE"), face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // cima direita
-        // middle peças
-        cubiculo *MCL= new cubiculo(vec3(0,0,1),{face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // esquerda
-        cubiculo *MCR= new cubiculo(vec3(0,0,-1),{face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // direita
-        cubiculo *MCU= new cubiculo(vec3(0,1,0),{face(vec3(0,0.5,0), vec3(0,1,0),"WHITE")}); // cima
-        cubiculo *MCD= new cubiculo(vec3(0,-1,0),{face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW")}); // baixo
-        cubiculo *MLD= new cubiculo(vec3(0,-1,1),{face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW"), face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // baixo esuqerda
-        cubiculo *MRD= new cubiculo(vec3(0,-1,-1),{face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW"), face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // baixo direita
-        cubiculo *MLU= new cubiculo(vec3(0,1,1),{face(vec3(0,0.5,0), vec3(0,1,0),"WHITE"), face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // cima esquerda
-        cubiculo *MRU= new cubiculo(vec3(0,1,-1),{face(vec3(0,0.5,0), vec3(0,1,0),"WHITE"), face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // cima direita
-        // back peças
-        cubiculo *BCC= new cubiculo(vec3(-1,0,0),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE")}); // central
-        cubiculo *BCL= new cubiculo(vec3(-1,0,1),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // esquerda
-        cubiculo *BCR= new cubiculo(vec3(-1,0,-1),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // direita
-        cubiculo *BCU= new cubiculo(vec3(-1,1,0),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,0.5,0), vec3(0,1,0),"WHITE")}); // cima
-        cubiculo *BCD= new cubiculo(vec3(-1,-1,0),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW")}); // baixo
-        cubiculo *BLD= new cubiculo(vec3(-1,-1,1),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW"), face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // baixo esuqerda
-        cubiculo *BRD= new cubiculo(vec3(-1,-1,-1),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW"), face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // baixo direita
-        cubiculo *BLU= new cubiculo(vec3(-1,1,1),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,0.5,0), vec3(0,1,0),"WHITE"), face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // cima esquerda
-        cubiculo *BRU= new cubiculo(vec3(-1,1,-1),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,0.5,0), vec3(0,1,0),"WHITE"), face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // cima direita
-
-        cubo.Adiciona({FCC, FCR, FCL, FCU, FCD, FRD, FLD, FRU, FLU, MCR, MCL, MCU, MCD, MRD, MLD, MRU, MLU, BCC, BCR, BCL, BCU, BCD, BRD, BLD, BRU, BLU});
+        cubo= new Cubo;
+        aim= new Animacao(cubo);
     }
     catch (const char* es)
     {

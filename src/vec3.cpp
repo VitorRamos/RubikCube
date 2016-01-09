@@ -77,3 +77,11 @@ ostream& operator << (ostream& out, vec3 x)
     out << matrix::transposta(x) << endl;
     return out;
 }
+bool dEqual(vec3 a, vec3 b, double rang)
+{
+    if(dEqual(a.x(), b.x(), rang) && dEqual(a.y(), b.y(), rang) && dEqual(a.z(), b.z(), rang))
+    {
+        return true;
+    }
+    return false;
+}

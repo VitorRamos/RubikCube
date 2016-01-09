@@ -44,10 +44,14 @@
 			<Add library="gdi32" />
 			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/lib" />
 		</Linker>
+		<Unit filename="include/cubo.h" />
 		<Unit filename="include/matrix.h" />
+		<Unit filename="include/utilitarios.h" />
 		<Unit filename="include/vec3.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/cubo.cpp" />
 		<Unit filename="src/matrix.cpp" />
+		<Unit filename="src/utilitarios.cpp" />
 		<Unit filename="src/vec3.cpp" />
 		<Extensions>
 			<code_completion />
