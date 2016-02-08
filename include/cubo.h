@@ -45,13 +45,19 @@ public:
 class Cubo
 {
     vector<cubiculo*> frontFace, backFace, leftFace, rightFace, middleFace1, middleFace2, middleFace3, upFace, downFace;
-    vector<cubiculo*> all;
+    vector<cubiculo> all;
 public:
     Cubo();
+    void operator= (Cubo x)
+    {
+        all= x.all;
+        UpDate();
+    }
     void AplicaT(string nomeF, matrix T);
     void Draw();
-    vector<cubiculo> ProcuraPeca(string cor, int numFace);
+    vector<cubiculo> ProcuraPeca(string cor, unsigned int numFace);
     cubiculo ProcuraPeca(vec3 pos);
+    void AplicaJogada(vector<string> jogada);
 private:
     void UpDate();
 };

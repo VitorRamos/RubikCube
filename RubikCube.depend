@@ -238,10 +238,10 @@
 1451159987 source:c:\users\vitor ramos\desktop\rubikcube\src\vec3.cpp
 	"vec3.h"
 
-1452003872 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\matrix.cpp
+1453827575 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\matrix.cpp
 	"matrix.h"
 
-1451993507 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\matrix.h
+1454954640 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\matrix.h
 	<ostream>
 	<initializer_list>
 
@@ -253,14 +253,14 @@
 	"utilitarios.h"
 	"matrix.h"
 
-1452269972 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\main.cpp
+1454954268 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\main.cpp
 	<iostream>
 	<cstdlib>
 	<time.h>
 	"vec3.h"
 	"cubo.h"
 
-1452256120 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\cubo.h
+1452385313 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\cubo.h
 	<GL/gl.h>
 	<GL/glut.h>
 	<string>
@@ -268,15 +268,15 @@
 	"utilitarios.h"
 	"vec3.h"
 
-1452270049 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\cubo.cpp
+1452386996 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\cubo.cpp
 	"cubo.h"
 
 1341006776 c:\program files (x86)\codeblocks\mingw\include\time.h
 	<_mingw.h>
 	<stddef.h>
 
-1452212150 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\utilitarios.h
+1452461823 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\utilitarios.h
 
-1452212157 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\utilitarios.cpp
+1452461823 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\utilitarios.cpp
 	"utilitarios.h"
 

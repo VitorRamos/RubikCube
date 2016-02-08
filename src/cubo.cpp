@@ -58,7 +58,7 @@ void face::Draw()
 void face::AplicaTransformacao(matrix T)
 {
     square= T*square;
-    //normal= T*normal; dont need for now
+    normal= T*normal;
     //pos= T*pos; dont need
 }
 vec3 face::getPos() const
@@ -111,34 +111,34 @@ vec3 cubiculo::getPos() const
 Cubo::Cubo()
 {
     // front peças
-    cubiculo *FCC= new cubiculo(vec3(1,0,0),{face(vec3(0.5,0,0), vec3(1,0,0),"RED")}); // central
-    cubiculo *FCL= new cubiculo(vec3(1,0,1),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // esquerda
-    cubiculo *FCR= new cubiculo(vec3(1,0,-1),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // direita
-    cubiculo *FCU= new cubiculo(vec3(1,1,0),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,0.5,0), vec3(0,1,0),"WHITE")}); // cima
-    cubiculo *FCD= new cubiculo(vec3(1,-1,0),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW")}); // baixo
-    cubiculo *FLD= new cubiculo(vec3(1,-1,1),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW"), face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // baixo esquerda
-    cubiculo *FRD= new cubiculo(vec3(1,-1,-1),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW"), face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // baixo direita
-    cubiculo *FLU= new cubiculo(vec3(1,1,1),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,0.5,0), vec3(0,1,0),"WHITE"), face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // cima esuqerda
-    cubiculo *FRU= new cubiculo(vec3(1,1,-1),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,0.5,0), vec3(0,1,0),"WHITE"), face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // cima direita
+    cubiculo FCC= cubiculo(vec3(1,0,0),{face(vec3(0.5,0,0), vec3(1,0,0),"RED")}); // central
+    cubiculo FCL= cubiculo(vec3(1,0,1),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // esquerda
+    cubiculo FCR= cubiculo(vec3(1,0,-1),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // direita
+    cubiculo FCU= cubiculo(vec3(1,1,0),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,0.5,0), vec3(0,1,0),"WHITE")}); // cima
+    cubiculo FCD= cubiculo(vec3(1,-1,0),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW")}); // baixo
+    cubiculo FLD= cubiculo(vec3(1,-1,1),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW"), face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // baixo esquerda
+    cubiculo FRD= cubiculo(vec3(1,-1,-1),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW"), face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // baixo direita
+    cubiculo FLU= cubiculo(vec3(1,1,1),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,0.5,0), vec3(0,1,0),"WHITE"), face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // cima esuqerda
+    cubiculo FRU= cubiculo(vec3(1,1,-1),{face(vec3(0.5,0,0), vec3(1,0,0),"RED"),face(vec3(0,0.5,0), vec3(0,1,0),"WHITE"), face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // cima direita
     // middle peças
-    cubiculo *MCL= new cubiculo(vec3(0,0,1),{face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // esquerda
-    cubiculo *MCR= new cubiculo(vec3(0,0,-1),{face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // direita
-    cubiculo *MCU= new cubiculo(vec3(0,1,0),{face(vec3(0,0.5,0), vec3(0,1,0),"WHITE")}); // cima
-    cubiculo *MCD= new cubiculo(vec3(0,-1,0),{face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW")}); // baixo
-    cubiculo *MLD= new cubiculo(vec3(0,-1,1),{face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW"), face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // baixo esuqerda
-    cubiculo *MRD= new cubiculo(vec3(0,-1,-1),{face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW"), face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // baixo direita
-    cubiculo *MLU= new cubiculo(vec3(0,1,1),{face(vec3(0,0.5,0), vec3(0,1,0),"WHITE"), face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // cima esquerda
-    cubiculo *MRU= new cubiculo(vec3(0,1,-1),{face(vec3(0,0.5,0), vec3(0,1,0),"WHITE"), face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // cima direita
+    cubiculo MCL= cubiculo(vec3(0,0,1),{face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // esquerda
+    cubiculo MCR= cubiculo(vec3(0,0,-1),{face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // direita
+    cubiculo MCU= cubiculo(vec3(0,1,0),{face(vec3(0,0.5,0), vec3(0,1,0),"WHITE")}); // cima
+    cubiculo MCD= cubiculo(vec3(0,-1,0),{face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW")}); // baixo
+    cubiculo MLD= cubiculo(vec3(0,-1,1),{face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW"), face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // baixo esuqerda
+    cubiculo MRD= cubiculo(vec3(0,-1,-1),{face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW"), face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // baixo direita
+    cubiculo MLU= cubiculo(vec3(0,1,1),{face(vec3(0,0.5,0), vec3(0,1,0),"WHITE"), face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // cima esquerda
+    cubiculo MRU= cubiculo(vec3(0,1,-1),{face(vec3(0,0.5,0), vec3(0,1,0),"WHITE"), face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // cima direita
     // back peças
-    cubiculo *BCC= new cubiculo(vec3(-1,0,0),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE")}); // central
-    cubiculo *BCL= new cubiculo(vec3(-1,0,1),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // esquerda
-    cubiculo *BCR= new cubiculo(vec3(-1,0,-1),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // direita
-    cubiculo *BCU= new cubiculo(vec3(-1,1,0),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,0.5,0), vec3(0,1,0),"WHITE")}); // cima
-    cubiculo *BCD= new cubiculo(vec3(-1,-1,0),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW")}); // baixo
-    cubiculo *BLD= new cubiculo(vec3(-1,-1,1),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW"), face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // baixo esuqerda
-    cubiculo *BRD= new cubiculo(vec3(-1,-1,-1),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW"), face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // baixo direita
-    cubiculo *BLU= new cubiculo(vec3(-1,1,1),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,0.5,0), vec3(0,1,0),"WHITE"), face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // cima esquerda
-    cubiculo *BRU= new cubiculo(vec3(-1,1,-1),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,0.5,0), vec3(0,1,0),"WHITE"), face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // cima direita
+    cubiculo BCC= cubiculo(vec3(-1,0,0),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE")}); // central
+    cubiculo BCL= cubiculo(vec3(-1,0,1),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // esquerda
+    cubiculo BCR= cubiculo(vec3(-1,0,-1),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // direita
+    cubiculo BCU= cubiculo(vec3(-1,1,0),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,0.5,0), vec3(0,1,0),"WHITE")}); // cima
+    cubiculo BCD= cubiculo(vec3(-1,-1,0),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW")}); // baixo
+    cubiculo BLD= cubiculo(vec3(-1,-1,1),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW"), face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // baixo esuqerda
+    cubiculo BRD= cubiculo(vec3(-1,-1,-1),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,-0.5,0), vec3(0,1,0),"YELLOW"), face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // baixo direita
+    cubiculo BLU= cubiculo(vec3(-1,1,1),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,0.5,0), vec3(0,1,0),"WHITE"), face(vec3(0,0,0.5), vec3(0,0,1),"GREEN")}); // cima esquerda
+    cubiculo BRU= cubiculo(vec3(-1,1,-1),{face(vec3(-0.5,0,0), vec3(1,0,0),"ORANGE"),face(vec3(0,0.5,0), vec3(0,1,0),"WHITE"), face(vec3(0,0,-0.5), vec3(0,0,1),"BLUE")}); // cima direita
 
     all= {FCC, FCR, FCL, FCU, FCD, FRD, FLD, FRU, FLU, MCR, MCL, MCU, MCD, MRD, MLD, MRU, MLU, BCC, BCR, BCL, BCU, BCD, BRD, BLD, BRU, BLU};
     UpDate();
@@ -161,23 +161,23 @@ void Cubo::AplicaT(string nomeF, matrix T)
 }
 void Cubo::Draw()
 {
-    for(auto& cub : all) cub->Draw();
+    for(auto& cub : all) cub.Draw();
 }
-vector<cubiculo> Cubo::ProcuraPeca(string cor, int numFace)
+vector<cubiculo> Cubo::ProcuraPeca(string cor, unsigned int numFace)
 {
     vector<cubiculo> ret;
     for(auto& cub : all)
-        if(cub->faces.size() == numFace)
-            for(auto& face : cub->faces)
+        if(cub.faces.size() == numFace)
+            for(auto& face : cub.faces)
                 if(face.getCor() == cor)
-                    ret.push_back(*cub);
+                    ret.push_back(cub);
     return ret;
 }
 cubiculo Cubo::ProcuraPeca(vec3 pos)
 {
     for(auto& cub : all)
-        if(dEqual(cub->pos, pos))
-            return *cub;
+        if(dEqual(cub.pos, pos))
+            return cub;
     return cubiculo(vec3(0,0,0), {});
 }
 void Cubo::UpDate()
@@ -193,14 +193,35 @@ void Cubo::UpDate()
     downFace.clear();
     for(auto& cub : all)
     {
-        if(dEqual(cub->pos.x(), 1.0f)) frontFace.push_back(cub);
-        if(dEqual(cub->pos.x(), -1.0f)) backFace.push_back(cub);
-        if(dEqual(cub->pos.z(), 1.0f)) leftFace.push_back(cub);
-        if(dEqual(cub->pos.z(), -1.0f)) rightFace.push_back(cub);
-        if(dEqual(cub->pos.y(), 1.0f)) upFace.push_back(cub);
-        if(dEqual(cub->pos.y(), -1.0f)) downFace.push_back(cub);
-        if(dEqual(cub->pos.x(), 0.0f)) middleFace1.push_back(cub);
-        if(dEqual(cub->pos.z(), 0.0f)) middleFace2.push_back(cub);
-        if(dEqual(cub->pos.y(), 0.0f)) middleFace3.push_back(cub);
+        if(dEqual(cub.pos.x(), 1.0f)) frontFace.push_back(&cub);
+        if(dEqual(cub.pos.x(), -1.0f)) backFace.push_back(&cub);
+        if(dEqual(cub.pos.z(), 1.0f)) leftFace.push_back(&cub);
+        if(dEqual(cub.pos.z(), -1.0f)) rightFace.push_back(&cub);
+        if(dEqual(cub.pos.y(), 1.0f)) upFace.push_back(&cub);
+        if(dEqual(cub.pos.y(), -1.0f)) downFace.push_back(&cub);
+        if(dEqual(cub.pos.x(), 0.0f)) middleFace1.push_back(&cub);
+        if(dEqual(cub.pos.z(), 0.0f)) middleFace2.push_back(&cub);
+        if(dEqual(cub.pos.y(), 0.0f)) middleFace3.push_back(&cub);
+    }
+}
+void Cubo::AplicaJogada(vector<string> jogada)
+{
+    for(auto play: jogada)
+    {
+        double theta= 90*M_PI/180;
+        if(play.at(0) == '\'')
+            theta= -theta;
+        const matrix Rx= {{1, 0, 0}, {0, cos(theta), -sin(theta)}, {0, sin(theta), cos(theta)} },
+        Ry= {{cos(theta), 0, sin(theta)}, {0, 1, 0}, {-sin(theta), 0, cos(theta)} },
+        Rz= {{cos(theta), -sin(theta), 0}, {sin(theta), cos(theta), 0}, {0, 0, 1} };
+        if(play == "F" || play == "M1" || play == "B"
+        || play == "'F" || play == "'M1" || play == "'B")
+            this->AplicaT(play, Rx);
+        if(play == "R" || play == "M2" || play == "L"
+        || play == "'R" || play == "'M2" || play == "'L")
+            this->AplicaT(play, Rz);
+        if(play == "U" || play == "M3" || play == "D"
+        || play == "'U" || play == "'M3" || play == "'D")
+            this->AplicaT(play, Ry);
     }
 }

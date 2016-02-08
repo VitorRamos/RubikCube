@@ -7,8 +7,6 @@ using namespace std;
 #include "vec3.h"
 #include "cubo.h"
 
-#define M_PI 3.14159265358979323846
-
 class Animacao
 {
     Cubo* cubo;
@@ -35,9 +33,9 @@ public:
         theta_acumulado+=theta;
 
         // try use const
-        const matrix Rx= {{1, 0, 0}, {0, cosf(theta), -sinf(theta)}, {0, sinf(theta), cosf(theta)} },
-        Ry= {{cosf(theta), 0, sinf(theta)}, {0, 1, 0}, {-sinf(theta), 0, cosf(theta)} },
-        Rz= {{cosf(theta), -sinf(theta), 0}, {sinf(theta), cosf(theta), 0}, {0, 0, 1} };
+        const matrix Rx= {{1, 0, 0}, {0, cos(theta), -sin(theta)}, {0, sin(theta), cos(theta)} },
+        Ry= {{cos(theta), 0, sin(theta)}, {0, 1, 0}, {-sin(theta), 0, cos(theta)} },
+        Rz= {{cos(theta), -sin(theta), 0}, {sin(theta), cos(theta), 0}, {0, 0, 1} };
 
         if(jogadas.front() == "F" || jogadas.front() == "M1" || jogadas.front() == "B"
         || jogadas.front() == "'F" || jogadas.front() == "'M1" || jogadas.front() == "'B")
@@ -62,18 +60,33 @@ public:
     }
     void ResolveCruz()
     {
-        vector<cubiculo> branco_central= cubo->ProcuraPeca("WHITE", 1);
-        if(dEqual(branco_central[0].getPos(), vec3(0, 0, 1))) AddJogada({"'M1"});
-        if(dEqual(branco_central[0].getPos(), vec3(0, 0, -1))) AddJogada({"M1"});
-        if(dEqual(branco_central[0].getPos(), vec3(1, 0, 0))) AddJogada({"M2"});
-        if(dEqual(branco_central[0].getPos(), vec3(-1, 0, 0))) AddJogada({"'M2"});
-        if(dEqual(branco_central[0].getPos(), vec3(0, -1, 0))) AddJogada({"M2","M2"});
+        if(theta_acumulado != 0)
+            return;
+        Cubo* cubo_c= new Cubo;
+        *cubo_c= *cubo;
+        vector<cubiculo> branco_central= cubo_c->ProcuraPeca("WHITE", 1);
+        if(dEqual(branco_central[0].getPos(), vec3(0, 0, 1))) { AddJogada({"'M1"}); cubo_c->AplicaJogada({"'M1"}); }
+        if(dEqual(branco_central[0].getPos(), vec3(0, 0, -1))) { AddJogada({"M1"}); cubo_c->AplicaJogada({"M1"}); }
+        if(dEqual(branco_central[0].getPos(), vec3(1, 0, 0))) { AddJogada({"M2"}); cubo_c->AplicaJogada({"M2"}); }
+        if(dEqual(branco_central[0].getPos(), vec3(-1, 0, 0))) { AddJogada({"'M2"}); cubo_c->AplicaJogada({"'M2"}); }
+        if(dEqual(branco_central[0].getPos(), vec3(0, -1, 0))) { AddJogada({"M2","M2"}); cubo_c->AplicaJogada({"M2", "M2"}); }
 
-        vector<cubiculo> branco_cruz= cubo->ProcuraPeca("WHITE", 2);
+        vector<cubiculo> branco_cruz= cubo_c->ProcuraPeca("WHITE", 2);
         for(auto& cub : branco_cruz)
         {
             vector<face> faces= cub.getFaces();
-
+            face white= faces[0].getCor() == "WHITE" ? faces[0] : faces[1],
+                 other= faces[0].getCor() != "WHITE" ? faces[0] : faces[1];
+            vec3 posOther= cubo_c->ProcuraPeca(other.getCor(), 1)[0].getPos();
+            if(dEqual(cub.getPos().y(), 1) && dEqual(white.getNormal().y(), 1))
+            {
+                if(!dEqual(posOther.x(), cub.getPos().x()))
+                {
+                    if(dEqual(abs(posOther.x())+abs(cub.getPos().x()), 2)) { AddJogada({"U", "U"}); cubo_c->AplicaJogada({"U","U"}); }
+                    if(dEqual(abs(posOther.x())+abs(cub.getPos().x()), 1)) { AddJogada({"U"}); cubo_c->AplicaJogada({"U"}); }
+                }
+                if(!dEqual(posOther.z(), cub.getPos().z())) { AddJogada({"U","U"}); cubo_c->AplicaJogada({"U", "U"}); }
+            }
         }
     }
 };
@@ -217,15 +230,15 @@ void Keyboard(unsigned char key, int x, int y)
     if(key == 'w') { aim->AddJogada({"M1"}); }
     if(key == 'e') { aim->AddJogada({"B"}); }
 
-    if(key == 'Z') { aim->AddJogada({"'F"}); }
-    if(key == 'A') { aim->AddJogada({"'M1"}); }
-    if(key == 'Q') { aim->AddJogada({"'B"}); }
-    if(key == 'X') { aim->AddJogada({"'R"}); }
-    if(key == 'S') { aim->AddJogada({"'M2"}); }
-    if(key == 'W') { aim->AddJogada({"'L"}); }
-    if(key == 'E') { aim->AddJogada({"'U"}); }
-    if(key == 'D') { aim->AddJogada({"'M3"}); }
-    if(key == 'C') { aim->AddJogada({"'D"}); }
+    if(key == 'Z') { aim->AddJogada({"'L"}); }
+    if(key == 'X') { aim->AddJogada({"'M2"}); }
+    if(key == 'C') { aim->AddJogada({"'R"}); }
+    if(key == 'A') { aim->AddJogada({"'U"}); }
+    if(key == 'S') { aim->AddJogada({"'M3"}); }
+    if(key == 'D') { aim->AddJogada({"'D"}); }
+    if(key == 'Q') { aim->AddJogada({"'F"}); }
+    if(key == 'W') { aim->AddJogada({"'M1"}); }
+    if(key == 'E') { aim->AddJogada({"'B"}); }
 
     // segunda camada
     if(key == '1') aim->AddJogada({"'U", "R", "U", "'R", "U", "F", "'U", "'F"});
@@ -272,11 +285,16 @@ void Keyboard(unsigned char key, int x, int y)
     }
 }
 
+void Idle()
+{
+    glutPostRedisplay();
+}
+
 void Time(int t)
 {
     aim->Processa();
     glutPostRedisplay();
-    glutTimerFunc(15, Time, t);
+    glutTimerFunc(1, Time, t);
 }
 
 //-------------------------------------------------------------------------------
@@ -296,6 +314,7 @@ int main(int argc,char** argv)
 	glutReshapeFunc(reshape);
 	glutMouseFunc(Mouse);
 	glutMotionFunc(Motion);
+	glutIdleFunc(Idle);
     glutTimerFunc(30, Time, 0);
 
 	Init();
