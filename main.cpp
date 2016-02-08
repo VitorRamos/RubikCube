@@ -4,7 +4,7 @@
 
 using namespace std;
 
-#include "vec3.h"
+#include "algebra3.h"
 #include "cubo.h"
 
 class Animacao
@@ -33,9 +33,7 @@ public:
         theta_acumulado+=theta;
 
         // try use const
-        const matrix Rx= {{1, 0, 0}, {0, cos(theta), -sin(theta)}, {0, sin(theta), cos(theta)} },
-        Ry= {{cos(theta), 0, sin(theta)}, {0, 1, 0}, {-sin(theta), 0, cos(theta)} },
-        Rz= {{cos(theta), -sin(theta), 0}, {sin(theta), cos(theta), 0}, {0, 0, 1} };
+        const mat4 Rx= rotation3Drad(vec3(1,0,0), theta), Ry= rotation3Drad(vec3(0,1,0), theta), Rz= rotation3Drad(vec3(0,0,1), theta);
 
         if(jogadas.front() == "F" || jogadas.front() == "M1" || jogadas.front() == "B"
         || jogadas.front() == "'F" || jogadas.front() == "'M1" || jogadas.front() == "'B")

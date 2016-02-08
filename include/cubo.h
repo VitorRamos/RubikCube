@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "utilitarios.h"
-#include "vec3.h"
+#include "algebra3.h"
 
 using std::vector;
 using std::string;
@@ -17,12 +17,12 @@ class face
 {
     vec3 pos;
     vec3 normal;
-    matrix square;
+    mat4 square;
     string cor;
 public:
     face(vec3 pos, vec3 normal, string cor);
     void Draw();
-    void AplicaTransformacao(matrix T);
+    void AplicaTransformacao(mat4 T);
     vec3 getPos() const;
     vec3 getNormal() const;
     string getCor() const;
@@ -36,7 +36,7 @@ class cubiculo
 public:
     cubiculo(vec3 pos, vector<face> faces);
     void Draw();
-    void AplicaTransformacao(matrix T);
+    void AplicaTransformacao(mat4 T);
     face ProcuraFace(string cor);
     vector<face> getFaces() const;
     vec3 getPos() const;
@@ -53,7 +53,7 @@ public:
         all= x.all;
         UpDate();
     }
-    void AplicaT(string nomeF, matrix T);
+    void AplicaT(string nomeF, mat4 T);
     void Draw();
     vector<cubiculo> ProcuraPeca(string cor, unsigned int numFace);
     cubiculo ProcuraPeca(vec3 pos);

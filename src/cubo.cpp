@@ -28,13 +28,13 @@ face::face(vec3 pos, vec3 normal, string cor)
         //d= vec3(-1, 1, (normal.x()-normal.y())/normal.z());
     }
     //vec3 nz= vec3::normalizar(normal)*0.49;
-    vec3 nx= vec3::normalizar(b-a)*0.49;
-    vec3 ny= vec3::normalizar(c-b)*0.49;
-    a= (nx-ny)+pos;
-    b= (-nx-ny)+pos;
+    vec3 nx= (b-a).normalize()*0.49;
+    vec3 ny= (c-b).normalize()*0.49;
+    a= (-nx-ny)+pos;
+    b= (nx-ny)+pos;
     c= (nx+ny)+pos;
     d= (-nx+ny)+pos;
-    square= { {a.x(), b.x(), c.x(), d.x()}, {a.y(), b.y(), c.y(), d.y()}, {a.z(), b.z(), c.z(), d.z()} };
+    square= mat4(vec4(a.x(), b.x(), c.x(), d.x()), vec4(a.y(), b.y(), c.y(), d.y()), vec4(a.z(), b.z(), c.z(), d.z()), vec4(0,0,0,0) );
 }
 void face::Draw()
 {
@@ -48,14 +48,14 @@ void face::Draw()
         else if(cor == "ORANGE") glColor3d(1,0.5,0);
         else if(cor == "BLUE") glColor3d(0,0,1);
         glBegin(GL_QUADS);
-            glVertex3f(square.at(0,0), square.at(1,0), square.at(2,0));
-            glVertex3f(square.at(0,1), square.at(1,1), square.at(2,1));
-            glVertex3f(square.at(0,2), square.at(1,2), square.at(2,2));
-            glVertex3f(square.at(0,3), square.at(1,3), square.at(2,3));
+            glVertex3f(square[0][0], square[1][0], square[2][0]);
+            glVertex3f(square[0][1], square[1][1], square[2][1]);
+            glVertex3f(square[0][2], square[1][2], square[2][2]);
+            glVertex3f(square[0][3], square[1][3], square[2][3]);
         glEnd();
     glPopMatrix();
 }
-void face::AplicaTransformacao(matrix T)
+void face::AplicaTransformacao(mat4 T)
 {
     square= T*square;
     normal= T*normal;
@@ -87,7 +87,7 @@ void cubiculo::Draw()
             face.Draw();
     glPopMatrix();
 }
-void cubiculo::AplicaTransformacao(matrix T)
+void cubiculo::AplicaTransformacao(mat4 T)
 {
     pos= T*pos;
     for(auto& face : faces) face.AplicaTransformacao(T);
@@ -143,7 +143,7 @@ Cubo::Cubo()
     all= {FCC, FCR, FCL, FCU, FCD, FRD, FLD, FRU, FLU, MCR, MCL, MCU, MCD, MRD, MLD, MRU, MLU, BCC, BCR, BCL, BCU, BCD, BRD, BLD, BRU, BLU};
     UpDate();
 }
-void Cubo::AplicaT(string nomeF, matrix T)
+void Cubo::AplicaT(string nomeF, mat4 T)
 {
     vector<cubiculo*> face;
     if(nomeF == "F" || nomeF == "'F") face= frontFace;
@@ -208,12 +208,10 @@ void Cubo::AplicaJogada(vector<string> jogada)
 {
     for(auto play: jogada)
     {
-        double theta= 90*M_PI/180;
+        double theta= 90;
         if(play.at(0) == '\'')
             theta= -theta;
-        const matrix Rx= {{1, 0, 0}, {0, cos(theta), -sin(theta)}, {0, sin(theta), cos(theta)} },
-        Ry= {{cos(theta), 0, sin(theta)}, {0, 1, 0}, {-sin(theta), 0, cos(theta)} },
-        Rz= {{cos(theta), -sin(theta), 0}, {sin(theta), cos(theta), 0}, {0, 0, 1} };
+        const mat4 Rx= rotation3D(vec3(1,0,0), theta), Ry= rotation3D(vec3(0,1,0), theta), Rz= rotation3D(vec3(0,0,1), theta);
         if(play == "F" || play == "M1" || play == "B"
         || play == "'F" || play == "'M1" || play == "'B")
             this->AplicaT(play, Rx);

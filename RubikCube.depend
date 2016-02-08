@@ -238,45 +238,62 @@
 1451159987 source:c:\users\vitor ramos\desktop\rubikcube\src\vec3.cpp
 	"vec3.h"
 
-1453827575 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\matrix.cpp
+1454959725 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\matrix.cpp
 	"matrix.h"
 
-1454954640 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\matrix.h
+1454959725 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\matrix.h
 	<ostream>
 	<initializer_list>
 
-1452255441 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\vec3.cpp
+1454959725 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\vec3.cpp
 	"vec3.h"
 
-1452254789 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\vec3.h
+1454959725 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\vec3.h
 	<math.h>
 	"utilitarios.h"
 	"matrix.h"
 
-1454954268 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\main.cpp
+1454961342 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\main.cpp
 	<iostream>
 	<cstdlib>
 	<time.h>
-	"vec3.h"
+	"algebra3.h"
 	"cubo.h"
 
-1452385313 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\cubo.h
+1454960114 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\cubo.h
 	<GL/gl.h>
 	<GL/glut.h>
 	<string>
 	<vector>
 	"utilitarios.h"
-	"vec3.h"
+	"algebra3.h"
 
-1452386996 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\cubo.cpp
+1454962023 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\cubo.cpp
 	"cubo.h"
 
 1341006776 c:\program files (x86)\codeblocks\mingw\include\time.h
 	<_mingw.h>
 	<stddef.h>
 
-1452461823 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\utilitarios.h
+1454960653 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\utilitarios.h
+	"algebra3.h"
 
-1452461823 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\utilitarios.cpp
+1454960448 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\utilitarios.cpp
 	"utilitarios.h"
+
+1454962152 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\algebra3.h
+	<ostream>
+	<istream>
+	<cmath>
+	<cstdio>
+	<cstdlib>
+
+1454962165 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\algebra3.cpp
+	"algebra3.h"
+	"glui_internal.h"
+	<cmath>
+
+1454959725 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\glui_internal.h
+	<cstdio>
+	<cmath>
 

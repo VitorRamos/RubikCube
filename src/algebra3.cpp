@@ -99,7 +99,7 @@ vec2::vec2()
     n[VX] = n[VY] = 0.0;
 }
 
-vec2::vec2(float x, float y)
+vec2::vec2(double x, double y)
 {
     n[VX] = x;
     n[VY] = y;
@@ -150,22 +150,22 @@ vec2 & vec2::operator-=(const vec2 &v)
     return *this;
 }
 
-vec2 &vec2::operator*=(float d)
+vec2 &vec2::operator*=(double d)
 {
     n[VX] *= d;
     n[VY] *= d;
     return *this;
 }
 
-vec2 &vec2::operator/=(float d)
+vec2 &vec2::operator/=(double d)
 {
-    float d_inv = 1.0f/d;
+    double d_inv = 1.0f/d;
     n[VX] *= d_inv;
     n[VY] *= d_inv;
     return *this;
 }
 
-float &vec2::operator[](int i)
+double &vec2::operator[](int i)
 {
     if (i < VX || i > VY)
       //VEC_ERROR("vec2 [] operator: illegal access; index = " << i << '\n')
@@ -173,23 +173,33 @@ float &vec2::operator[](int i)
     return n[i];
 }
 
-const float &vec2::operator[](int i) const
+const double &vec2::operator[](int i) const
 {
     if (i < VX || i > VY)
       //VEC_ERROR("vec2 [] operator: illegal access; index = " << i << '\n')
       VEC_ERROR("vec2 [] operator: illegal access" );
 
     return n[i];
+}
+
+double vec2::x()
+{
+    return n[VX];
+}
+
+double vec2::y()
+{
+    return n[VY];
 }
 
 /******************** vec2 SPECIAL FUNCTIONS ********************/
 
-float vec2::length() const
+double vec2::length() const
 {
-    return (float) sqrt(length2());
+    return (double) sqrt(length2());
 }
 
-float vec2::length2() const
+double vec2::length2() const
 {
     return n[VX]*n[VX] + n[VY]*n[VY];
 }
@@ -207,7 +217,7 @@ vec2 &vec2::apply(V_FCT_PTR fct)
     return *this;
 }
 
-void vec2::set( float x, float y )
+void vec2::set( double x, double y )
 {
   n[VX] = x;   n[VY] = y;
 }
@@ -229,12 +239,12 @@ vec2 operator-(const vec2 &a, const vec2& b)
     return vec2(a.n[VX]-b.n[VX], a.n[VY]-b.n[VY]);
 }
 
-vec2 operator*(const vec2 &a, float d)
+vec2 operator*(const vec2 &a, double d)
 {
     return vec2(d*a.n[VX], d*a.n[VY]);
 }
 
-vec2 operator*(float d, const vec2 &a)
+vec2 operator*(double d, const vec2 &a)
 {
     return a*d;
 }
@@ -271,14 +281,14 @@ vec3 operator*(const vec3 &v, const mat3 &a)
     return a.transpose() * v;
 }
 
-float operator*(const vec2 &a, const vec2 &b)
+double operator*(const vec2 &a, const vec2 &b)
 {
     return a.n[VX]*b.n[VX] + a.n[VY]*b.n[VY];
 }
 
-vec2 operator/(const vec2 &a, float d)
+vec2 operator/(const vec2 &a, double d)
 {
-    float d_inv = 1.0f/d;
+    double d_inv = 1.0f/d;
     return vec2(a.n[VX]*d_inv, a.n[VY]*d_inv);
 }
 
@@ -359,7 +369,7 @@ vec3::vec3()
     n[VX] = n[VY] = n[VZ] = 0.0;
 }
 
-vec3::vec3(float x, float y, float z)
+vec3::vec3(double x, double y, double z)
 {
     n[VX] = x;
     n[VY] = y;
@@ -378,7 +388,7 @@ vec3::vec3(const vec2 &v)
     n[VZ] = 1.0;
 }
 
-vec3::vec3(const vec2 &v, float d)
+vec3::vec3(const vec2 &v, double d)
 {
     n[VX] = v.n[VX];
     n[VY] = v.n[VY];
@@ -430,7 +440,7 @@ vec3 &vec3::operator-=(const vec3& v)
     return *this;
 }
 
-vec3 &vec3::operator*=(float d)
+vec3 &vec3::operator*=(double d)
 {
     n[VX] *= d;
     n[VY] *= d;
@@ -438,16 +448,16 @@ vec3 &vec3::operator*=(float d)
     return *this;
 }
 
-vec3 &vec3::operator/=(float d)
+vec3 &vec3::operator/=(double d)
 {
-    float d_inv = 1.0f/d;
+    double d_inv = 1.0f/d;
     n[VX] *= d_inv;
     n[VY] *= d_inv;
     n[VZ] *= d_inv;
     return *this;
 }
 
-float &vec3::operator[](int i)
+double &vec3::operator[](int i)
 {
     if (i < VX || i > VZ)
         //VEC_ERROR("vec3 [] operator: illegal access; index = " << i << '\n')
@@ -456,7 +466,7 @@ float &vec3::operator[](int i)
     return n[i];
 }
 
-const float &vec3::operator[](int i) const
+const double &vec3::operator[](int i) const
 {
     if (i < VX || i > VZ)
         //VEC_ERROR("vec3 [] operator: illegal access; index = " << i << '\n')
@@ -464,15 +474,31 @@ const float &vec3::operator[](int i) const
 
     return n[i];
 }
+
+double vec3::x()
+{
+    return n[VX];
+}
+
+double vec3::y()
+{
+    return n[VY];
+}
+
+double vec3::z()
+{
+    return n[VZ];
+}
+
 
 // SPECIAL FUNCTIONS
 
-float vec3::length() const
+double vec3::length() const
 {
-    return (float) sqrt(length2());
+    return (double) sqrt(length2());
 }
 
-float vec3::length2() const
+double vec3::length2() const
 {
     return n[VX]*n[VX] + n[VY]*n[VY] + n[VZ]*n[VZ];
 }
@@ -499,7 +525,7 @@ vec3 &vec3::apply(V_FCT_PTR fct)
     return *this;
 }
 
-void vec3::set(float x, float y, float z)   // set vector
+void vec3::set(double x, double y, double z)   // set vector
 {
     n[VX] = x;
     n[VY] = y;
@@ -528,12 +554,12 @@ vec3 operator-(const vec3 &a, const vec3 &b)
     return vec3(a.n[VX]-b.n[VX], a.n[VY]-b.n[VY], a.n[VZ]-b.n[VZ]);
 }
 
-vec3 operator*(const vec3 &a, float d)
+vec3 operator*(const vec3 &a, double d)
 {
     return vec3(d*a.n[VX], d*a.n[VY], d*a.n[VZ]);
 }
 
-vec3 operator*(float d, const vec3 &a)
+vec3 operator*(double d, const vec3 &a)
 {
     return a*d;
 }
@@ -548,14 +574,14 @@ vec3 operator*(const vec3 &v, mat4 &a)
     return a.transpose()*v;
 }
 
-float operator*(const vec3 &a, const vec3 &b)
+double operator*(const vec3 &a, const vec3 &b)
 {
     return a.n[VX]*b.n[VX] + a.n[VY]*b.n[VY] + a.n[VZ]*b.n[VZ];
 }
 
-vec3 operator/(const vec3 &a, float d)
+vec3 operator/(const vec3 &a, double d)
 {
-    float d_inv = 1.0f/d;
+    double d_inv = 1.0f/d;
     return vec3(a.n[VX]*d_inv, a.n[VY]*d_inv, a.n[VZ]*d_inv);
 }
 
@@ -645,7 +671,7 @@ vec4::vec4()
     n[VW] = 1.0;
 }
 
-vec4::vec4(float x, float y, float z, float w)
+vec4::vec4(double x, double y, double z, double w)
 {
     n[VX] = x;
     n[VY] = y;
@@ -669,7 +695,7 @@ vec4::vec4(const vec3 &v)
     n[VW] = 1.0;
 }
 
-vec4::vec4(const vec3 &v, float d)
+vec4::vec4(const vec3 &v, double d)
 {
     n[VX] = v.n[VX];
     n[VY] = v.n[VY];
@@ -706,7 +732,7 @@ vec4 &vec4::operator-=(const vec4 &v)
     return *this;
 }
 
-vec4 &vec4::operator*=(float d)
+vec4 &vec4::operator*=(double d)
 {
     n[VX] *= d;
     n[VY] *= d;
@@ -715,9 +741,9 @@ vec4 &vec4::operator*=(float d)
     return *this;
 }
 
-vec4 &vec4::operator/=(float d)
+vec4 &vec4::operator/=(double d)
 {
-    float d_inv = 1.0f/d;
+    double d_inv = 1.0f/d;
     n[VX] *= d_inv;
     n[VY] *= d_inv;
     n[VZ] *= d_inv;
@@ -725,7 +751,7 @@ vec4 &vec4::operator/=(float d)
     return *this;
 }
 
-float &vec4::operator[](int i)
+double &vec4::operator[](int i)
 {
     if (i < VX || i > VW)
         //VEC_ERROR("vec4 [] operator: illegal access; index = " << i << '\n')
@@ -734,7 +760,7 @@ float &vec4::operator[](int i)
     return n[i];
 }
 
-const float &vec4::operator[](int i) const
+const double &vec4::operator[](int i) const
 {
     if (i < VX || i > VW)
         //VEC_ERROR("vec4 [] operator: illegal access; index = " << i << '\n')
@@ -742,15 +768,35 @@ const float &vec4::operator[](int i) const
 
     return n[i];
 }
+
+double vec4::x()
+{
+    return n[VX];
+}
+
+double vec4::y()
+{
+    return n[VY];
+}
+
+double vec4::z()
+{
+    return n[VZ];
+}
+double vec4::w()
+{
+    return n[VW];
+}
+
 
 // SPECIAL FUNCTIONS
 
-float vec4::length() const
+double vec4::length() const
 {
-    return (float) sqrt(length2());
+    return (double) sqrt(length2());
 }
 
-float vec4::length2() const
+double vec4::length2() const
 {
     return n[VX]*n[VX] + n[VY]*n[VY] + n[VZ]*n[VZ] + n[VW]*n[VW];
 }
@@ -784,7 +830,7 @@ void vec4::print(FILE *file, const char *name) const // print vector to a file
     fprintf( file, "%s: <%f, %f, %f, %f>\n", name, n[VX], n[VY], n[VZ], n[VW]);
 }
 
-void vec4::set(float x, float y, float z, float a)
+void vec4::set(double x, double y, double z, double a)
 {
     n[0] = x;
     n[1] = y;
@@ -818,12 +864,12 @@ vec4 operator-(const vec4 &a, const vec4 &b)
         a.n[VW] - b.n[VW]);
 }
 
-vec4 operator*(const vec4 &a, float d)
+vec4 operator*(const vec4 &a, double d)
 {
     return vec4(d*a.n[VX], d*a.n[VY], d*a.n[VZ], d*a.n[VW]);
 }
 
-vec4 operator*(float d, const vec4 &a)
+vec4 operator*(double d, const vec4 &a)
 {
     return a*d;
 }
@@ -846,7 +892,7 @@ vec4 operator*(const vec4 &v, const mat4 &a)
     return a.transpose()*v;
 }
 
-float operator*(const vec4 &a, const vec4 &b)
+double operator*(const vec4 &a, const vec4 &b)
 {
     return
         a.n[VX]*b.n[VX] +
@@ -855,9 +901,9 @@ float operator*(const vec4 &a, const vec4 &b)
         a.n[VW]*b.n[VW];
 }
 
-vec4 operator/(const vec4 &a, float d)
+vec4 operator/(const vec4 &a, double d)
 {
-    float d_inv = 1.0f/d;
+    double d_inv = 1.0f/d;
     return vec4(
         a.n[VX]*d_inv,
         a.n[VY]*d_inv,
@@ -991,7 +1037,7 @@ mat3 &mat3::operator-=(const mat3& m)
     return *this;
 }
 
-mat3 &mat3::operator*=(float d)
+mat3 &mat3::operator*=(double d)
 {
     v[0] *= d;
     v[1] *= d;
@@ -999,7 +1045,7 @@ mat3 &mat3::operator*=(float d)
     return *this;
 }
 
-mat3 &mat3::operator/=(float d)
+mat3 &mat3::operator/=(double d)
 {
     v[0] /= d;
     v[1] /= d;
@@ -1118,17 +1164,17 @@ mat3 operator*(const mat3 &a, const mat3 &b)
     #undef ROWCOL
 }
 
-mat3 operator*(const mat3 &a, float d)
+mat3 operator*(const mat3 &a, double d)
 {
     return mat3(a.v[0]*d, a.v[1]*d, a.v[2]*d);
 }
 
-mat3 operator*(float d, const mat3 &a)
+mat3 operator*(double d, const mat3 &a)
 {
     return a*d;
 }
 
-mat3 operator/(const mat3 &a, float d)
+mat3 operator/(const mat3 &a, double d)
 {
     return mat3(a.v[0]/d, a.v[1]/d, a.v[2]/d);
 }
@@ -1215,10 +1261,10 @@ mat4::mat4(const mat4 &m)
 }
 
 mat4::mat4(
-     float a00, float a01, float a02, float a03,
-     float a10, float a11, float a12, float a13,
-     float a20, float a21, float a22, float a23,
-     float a30, float a31, float a32, float a33 )
+     double a00, double a01, double a02, double a03,
+     double a10, double a11, double a12, double a13,
+     double a20, double a21, double a22, double a23,
+     double a30, double a31, double a32, double a33 )
 {
   v[0][0] = a00;  v[0][1] = a01;  v[0][2] = a02;  v[0][3] = a03;
   v[1][0] = a10;  v[1][1] = a11;  v[1][2] = a12;  v[1][3] = a13;
@@ -1255,7 +1301,7 @@ mat4 &mat4::operator-=(const mat4 &m)
     return *this;
 }
 
-mat4 &mat4::operator*=(float d)
+mat4 &mat4::operator*=(double d)
 {
     v[0] *= d;
     v[1] *= d;
@@ -1264,7 +1310,7 @@ mat4 &mat4::operator*=(float d)
     return *this;
 }
 
-mat4 &mat4::operator/=(float d)
+mat4 &mat4::operator/=(double d)
 {
     v[0] /= d;
     v[1] /= d;
@@ -1374,7 +1420,7 @@ void mat4::swap_rows(int i, int j)
 
 void mat4::swap_cols(int i, int j)
 {
-    float t;
+    double t;
     int k;
 
     for (k=0; k<4; k++)
@@ -1429,17 +1475,17 @@ mat4 operator*(const mat4 &a, const mat4 &b)
     #undef ROWCOL
 }
 
-mat4 operator*(const mat4 &a, float d)
+mat4 operator*(const mat4 &a, double d)
 {
     return mat4(a.v[0]*d, a.v[1]*d, a.v[2]*d, a.v[3]*d);
 }
 
-mat4 operator*(float d, const mat4 &a)
+mat4 operator*(double d, const mat4 &a)
 {
     return a*d;
 }
 
-mat4 operator/(const mat4 &a, float d)
+mat4 operator/(const mat4 &a, double d)
 {
     return mat4(a.v[0]/d, a.v[1]/d, a.v[2]/d, a.v[3]/d);
 }
@@ -1501,11 +1547,11 @@ mat3 translation2D(const vec2 &v)
         vec3(0.0, 0.0, 1.0));
 }
 
-mat3 rotation2D(const vec2 &Center, float angleDeg)
+mat3 rotation2D(const vec2 &Center, double angleDeg)
 {
-    float angleRad = (float) (angleDeg * M_PI / 180.0);
-    float c = (float) cos(angleRad);
-    float s = (float) sin(angleRad);
+    double angleRad = (double) (angleDeg * M_PI / 180.0);
+    double c = (double) cos(angleRad);
+    double s = (double) sin(angleRad);
 
     return mat3(
         vec3(c,    -s, Center[VX] * (1.0f-c) + Center[VY] * s),
@@ -1539,12 +1585,12 @@ mat4 translation3D(const vec3 &v)
         vec4(0.0, 0.0, 0.0, 1.0));
 }
 
-mat4 rotation3D(const vec3 &Axis, float angleDeg)
+mat4 rotation3D(const vec3 &Axis, double angleDeg)
 {
-    float angleRad = (float) (angleDeg * M_PI / 180.0);
-    float c = (float) cos(angleRad);
-    float s = (float) sin(angleRad);
-    float t = 1.0f - c;
+    double angleRad = (double) (angleDeg * M_PI / 180.0);
+    double c = (double) cos(angleRad);
+    double s = (double) sin(angleRad);
+    double t = 1.0f - c;
 
     vec3 axis(Axis);
     axis.normalize();
@@ -1565,11 +1611,11 @@ mat4 rotation3D(const vec3 &Axis, float angleDeg)
         vec4(0.0, 0.0, 0.0, 1.0));
 }
 
-mat4 rotation3Drad(const vec3 &Axis, float angleRad)
+mat4 rotation3Drad(const vec3 &Axis, double angleRad)
 {
-    float c = (float) cos(angleRad);
-    float s = (float) sin(angleRad);
-    float t = 1.0f - c;
+    double c = (double) cos(angleRad);
+    double s = (double) sin(angleRad);
+    double t = 1.0f - c;
 
     vec3 axis(Axis);
     axis.normalize();
@@ -1599,7 +1645,7 @@ mat4 scaling3D(const vec3 &scaleVector)
         vec4(0.0, 0.0, 0.0, 1.0));
 }
 
-mat4 perspective3D(float d)
+mat4 perspective3D(double d)
 {
     return mat4(
         vec4(1.0f, 0.0f, 0.0f,   0.0f),
