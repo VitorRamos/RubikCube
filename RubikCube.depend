@@ -253,14 +253,14 @@
 	"utilitarios.h"
 	"matrix.h"
 
-1454961342 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\main.cpp
+1454962467 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\main.cpp
 	<iostream>
 	<cstdlib>
 	<time.h>
 	"algebra3.h"
 	"cubo.h"
 
-1454960114 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\cubo.h
+1454962467 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\cubo.h
 	<GL/gl.h>
 	<GL/glut.h>
 	<string>
@@ -268,27 +268,27 @@
 	"utilitarios.h"
 	"algebra3.h"
 
-1454962023 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\cubo.cpp
+1454962467 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\cubo.cpp
 	"cubo.h"
 
 1341006776 c:\program files (x86)\codeblocks\mingw\include\time.h
 	<_mingw.h>
 	<stddef.h>
 
-1454960653 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\utilitarios.h
+1454962467 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\utilitarios.h
 	"algebra3.h"
 
-1454960448 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\utilitarios.cpp
+1454962467 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\utilitarios.cpp
 	"utilitarios.h"
 
-1454962152 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\algebra3.h
+1454962467 c:\users\vitor ramos\desktop\c++\projetos\rubikcube\include\algebra3.h
 	<ostream>
 	<istream>
 	<cmath>
 	<cstdio>
 	<cstdlib>
 
-1454962165 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\algebra3.cpp
+1454962467 source:c:\users\vitor ramos\desktop\c++\projetos\rubikcube\src\algebra3.cpp
 	"algebra3.h"
 	"glui_internal.h"
 	<cmath>
