@@ -2,28 +2,30 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="RubikCube" />
+		<Option title="Rubik" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/RubikCube" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/Rubik" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="$(#glut)/bin" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
-					<Add directory="include" />
+					<Add directory="/home/vitor/Área de Trabalho/Rubik/include" />
+					<Add directory="/home/vitor/Área de Trabalho/Rubik/src" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/RubikCube" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/Rubik" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="$(#glut)/bin" />
 				<Option object_output="obj/Release/" />
-				<Option type="1" />
+				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
-					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -32,18 +34,27 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-fexceptions" />
+			<Add directory="$(#glut.include)" />
 		</Compiler>
+		<Linker>
+			<Add library="glut" />
+			<Add library="GL" />
+			<Add library="GLU" />
+			<Add library="Xxf86vm" />
+			<Add directory="$(#glut.lib)" />
+		</Linker>
+		<Unit filename="include/algebra3.h" />
+		<Unit filename="include/cubo.h" />
 		<Unit filename="include/matrix.h" />
-		<Unit filename="include/vec3.h" />
+		<Unit filename="include/utilitarios.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/algebra3.cpp" />
+		<Unit filename="src/cubo.cpp" />
 		<Unit filename="src/matrix.cpp" />
-		<Unit filename="src/vec3.cpp" />
+		<Unit filename="src/utilitarios.cpp" />
 		<Extensions>
 			<code_completion />
-			<envvars />
 			<debugger />
-			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

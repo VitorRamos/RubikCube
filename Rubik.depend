@@ -1,0 +1,196 @@
+# depslib dependency file v1.0
+1460763786 source:/home/vitor/Área de Trabalho/Rubik/main.cpp
+	<GLUT/glut.h>
+	<GL/glut.h>
+	<stdlib.h>
+
+1400929863 /usr/include/GL/glut.h
+	"freeglut_std.h"
+
+1400929863 /usr/include/GL/freeglut_std.h
+	<windows.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1470955750 /usr/include/GL/gl.h
+	"gl_mangle.h"
+	<windows.h>
+	<GL/glext.h>
+
+1470955750 /usr/include/GL/gl_mangle.h
+
+1470955750 /usr/include/GL/glext.h
+	<windows.h>
+	<stddef.h>
+	<inttypes.h>
+	<inttypes.h>
+	<inttypes.h>
+	<stdint.h>
+	<stdint.h>
+	<inttypes.h>
+
+1476450841 /usr/include/inttypes.h
+	<features.h>
+	<stdint.h>
+	<stddef.h>
+
+1476450826 /usr/include/features.h
+	<stdc-predef.h>
+	<sys/cdefs.h>
+	<gnu/stubs.h>
+
+1476450826 /usr/include/stdc-predef.h
+
+1476450841 /usr/include/stdint.h
+	<features.h>
+	<bits/wchar.h>
+	<bits/wordsize.h>
+
+1445634967 /usr/include/GL/glu.h
+	"glu_mangle.h"
+	<GL/gl.h>
+
+1445634967 /usr/include/GL/glu_mangle.h
+
+1476450841 /usr/include/stdlib.h
+	<features.h>
+	<stddef.h>
+	<bits/waitflags.h>
+	<bits/waitstatus.h>
+	<xlocale.h>
+	<sys/types.h>
+	<alloca.h>
+	<bits/stdlib-bsearch.h>
+	<bits/stdlib-float.h>
+	<bits/stdlib.h>
+	<bits/stdlib-ldbl.h>
+
+1476450827 /usr/include/xlocale.h
+
+1476450841 /usr/include/alloca.h
+	<features.h>
+	<stddef.h>
+
+1460764903 source:/home/vitor/Área de Trabalho/Rubik/src/algebra3.cpp
+	"algebra3.h"
+	"glui_internal.h"
+	<cmath>
+
+1460764903 /home/vitor/Área de Trabalho/Rubik/include/algebra3.h
+	<ostream>
+	<istream>
+	<cmath>
+	<cstdio>
+	<cstdlib>
+
+1460764903 /home/vitor/Área de Trabalho/Rubik/include/glui_internal.h
+	<cstdio>
+	<cmath>
+
+1460764903 source:/home/vitor/Área de Trabalho/Rubik/src/cubo.cpp
+	"cubo.h"
+
+1460764903 /home/vitor/Área de Trabalho/Rubik/include/cubo.h
+	<GL/gl.h>
+	<GL/glut.h>
+	<string>
+	<vector>
+	"utilitarios.h"
+	"algebra3.h"
+
+1460764903 /home/vitor/Área de Trabalho/Rubik/include/utilitarios.h
+	"algebra3.h"
+
+1460763621 /home/vitor/Área de Trabalho/Rubik/include/vec3.h
+	<math.h>
+	"utilitarios.h"
+	"matrix.h"
+
+1455650042 /usr/include/math.h
+	<features.h>
+	<bits/huge_val.h>
+	<bits/huge_valf.h>
+	<bits/huge_vall.h>
+	<bits/inf.h>
+	<bits/nan.h>
+	<bits/mathdef.h>
+	<bits/mathcalls.h>
+	<bits/mathcalls.h>
+	<bits/mathcalls.h>
+	<bits/mathinline.h>
+	<bits/math-finite.h>
+
+1460764903 /home/vitor/Área de Trabalho/Rubik/include/matrix.h
+	<ostream>
+	<initializer_list>
+
+1460764903 source:/home/vitor/Área de Trabalho/Rubik/src/matrix.cpp
+	"matrix.h"
+
+1460764903 source:/home/vitor/Área de Trabalho/Rubik/src/utilitarios.cpp
+	"utilitarios.h"
+
+1460763621 source:/home/vitor/Área de Trabalho/Rubik/src/vec3.cpp
+	"vec3.h"
+
+1460764903 source:/home/vitor/Área de Trabalho/Desenvolvimento/Rubik/src/algebra3.cpp
+	"algebra3.h"
+	"glui_internal.h"
+	<cmath>
+
+1460764903 source:/home/vitor/Área de Trabalho/Desenvolvimento/Rubik/src/cubo.cpp
+	"cubo.h"
+
+1460764903 source:/home/vitor/Área de Trabalho/Desenvolvimento/Rubik/src/matrix.cpp
+	"matrix.h"
+
+1460764903 source:/home/vitor/Área de Trabalho/Desenvolvimento/Rubik/src/utilitarios.cpp
+	"utilitarios.h"
+
+1477611775 source:/home/vitor/Área de Trabalho/Desenvolvimento/Rubik/main.cpp
+	<iostream>
+	<cstdlib>
+	<time.h>
+	"algebra3.h"
+	"cubo.h"
+
+1476450844 /usr/include/time.h
+	<features.h>
+	<stddef.h>
+	<bits/time.h>
+	<bits/types.h>
+	<bits/types.h>
+	<bits/types.h>
+	<bits/types.h>
+	<bits/types.h>
+	<xlocale.h>
+
+1460764903 /home/vitor/Área de Trabalho/Desenvolvimento/Rubik/include/algebra3.h
+	<ostream>
+	<istream>
+	<cmath>
+	<cstdio>
+	<cstdlib>
+
+1460764903 /home/vitor/Área de Trabalho/Desenvolvimento/Rubik/include/cubo.h
+	<GL/gl.h>
+	<GL/glut.h>
+	<string>
+	<vector>
+	"utilitarios.h"
+	"algebra3.h"
+
+1460764903 /home/vitor/Área de Trabalho/Desenvolvimento/Rubik/include/utilitarios.h
+	"algebra3.h"
+
+1460764903 /home/vitor/Área de Trabalho/Desenvolvimento/Rubik/include/glui_internal.h
+	<cstdio>
+	<cmath>
+
+1460764903 /home/vitor/Área de Trabalho/Desenvolvimento/Rubik/include/matrix.h
+	<ostream>
+	<initializer_list>
+

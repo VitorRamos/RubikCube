@@ -4,24 +4,28 @@
 #pragma once
 
 #include <math.h>
+#include "utilitarios.h"
 #include "matrix.h"
 
 class vec3 : public matrix
 {
 public:
     vec3();
-    vec3(float x, float y, float z);
+    vec3(double x, double y, double z);
     vec3(matrix x);
     vec3 operator =(matrix x);
-    void set(float x, float y, float z);
-    float& x();
-    float& y();
-    float& z();
-    float& at(int i);
-    float norma();
-    float produto(vec3 x);
+    void set(double x, double y, double z);
+    double x();
+    double y();
+    double z();
+    double& at(int i);
+    double norma();
+    double produto(vec3 x);
     vec3 cruzado(vec3 x);
     vec3 projecao(vec3 x);
     static vec3 normalizar(vec3 x);
+
+    friend ostream& operator << (ostream& out, vec3 x);
+    friend bool dEqual(vec3 a, vec3 b, double rang= 1E-5);
 };
 #endif // VEC3_H
