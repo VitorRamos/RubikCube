@@ -179,18 +179,22 @@ void Motion(int x,int y)
 		zoom -= (float) 0.05f * diffx;
 	}
 	else
+	{
 		if( Buttons[0] )
 		{
 			rotx += (float) 0.5f * diffy;
 			roty += (float) 0.5f * diffx;
 		}
 		else
+		{
 			if( Buttons[1] )
 			{
 				tx += (float) 0.05f * diffx;
 				ty -= (float) 0.05f * diffy;
 			}
 			glutPostRedisplay();
+		}
+	}
 }
 
 //-------------------------------------------------------------------------------
