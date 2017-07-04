@@ -180,7 +180,6 @@ void Motion(int x,int y)
 	}
 	else
 	{
-
 		if( Buttons[0] )
 		{
 			rotx += (float) 0.5f * diffy;
@@ -290,7 +289,6 @@ void Keyboard(unsigned char key, int x, int y)
 
 void Idle()
 {
-    aim->Processa();
     glutPostRedisplay();
 }
 
@@ -298,7 +296,7 @@ void Time(int t)
 {
     aim->Processa();
     glutPostRedisplay();
-    glutTimerFunc(30, Time, t);
+    glutTimerFunc(1, Time, t);
 }
 
 //-------------------------------------------------------------------------------
